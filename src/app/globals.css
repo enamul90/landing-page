@@ -1,17 +1,34 @@
 @import "tailwindcss";
 
+
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+
+
+
 @theme {
   --color-primary : #F1A350;
-  --color-secondary : #688FB4;
+  --color-secondary : #64A2F8;
 
   --color-Back : #E9EFF5;
   --color-Shave : #FFFFFF;
 
-  --color-Text-100: #33333F;
-  --color-Text-75: #4F4F58;
+  --color-Text-100: #1f1f27;
+  --color-Text-75: #373737;
   --color-Text-50: #898990;
-  --color-Line: #E1E6ED;
+  --color-Line: #a5a5a5;
 
 
   --color-border:#E1E6ED;
+}
+
+
+.video-section{
+  background: linear-gradient(90deg, rgba(100, 162, 248, 0.00) 11.55%, #64A2F8 50.58%, rgba(100, 162, 248, 0.00) 93.73%);
+}
+
+.reviewSection {
+  border-radius: 50px 0;
+  background: linear-gradient(90deg, #F1A350 0%, #64A2F8 50.58%, #F1A350 100%);
 }

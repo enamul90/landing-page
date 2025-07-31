@@ -9,7 +9,7 @@ import SocialMediaInput from "@/components/form/SocialMediaInput";
 export default function SettingPage() {
 
     return (
-        <div className="lg:p-6 p-3 bg-gray-100 min-h-screen">
+        <div className="lg:p-5 p-2 bg-gray-100 min-h-screen">
 
             <div className={"w-full max-w-[700px] mx-auto  p-5 bg-white rounded-md"}>
 

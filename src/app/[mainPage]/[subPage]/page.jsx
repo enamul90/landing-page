@@ -1,5 +1,6 @@
 'use client'
 import React, from 'react';
+import { useRouter } from 'next/navigation';
 import {Sidebar} from "@/components/Layout/sidebar";
 import Dashboard from "@/page/Dashboard";
 
@@ -13,10 +14,16 @@ import SettingPage from "@/page/SettingPage";
 import Drawer from "@/components/Layout/Drawer";
 
 const Page = () => {
+    const router = useRouter();
+
     const [drawerOpen, setDrawerOpen] = React.useState(false);
 
     const params = useParams();
     const {mainPage} = params;
+
+    const goLandingPage = () => {
+        router.push("/landingPage");
+    }
 
 
     return (
@@ -40,7 +47,7 @@ const Page = () => {
                         <h2 className=" text-xl md:text-2xl text-Text-100 font-bold">Dashboard</h2>
                     </div>
 
-                    <button className="bg-black px-2 py-1 text-white rounded cursor-pointer flex items-center gap-1 text-[14px] uppercase">
+                    <button onClick={goLandingPage} className="bg-black px-2 py-1 text-white rounded cursor-pointer flex items-center gap-1 text-[14px] uppercase">
                         Landing Page
                         <IoMdShareAlt className={'text-lg'}/>
                     </button>

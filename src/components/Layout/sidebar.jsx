@@ -32,7 +32,7 @@ export function Sidebar({isOpen = true}) {
                                    transition-colors duration-300 ease-in-out ${mainPage === item.path && "bg-primary/60" +
                         " border-e-2 border-primary"} ${!isOpen && "justify-center"}`}>
                             <Link
-                                href={`/${item.path}/${item.subMenu ? item.subMenu[0].toLowerCase() : "submenu" }`}
+                                href={`/${item.path}/${item.subMenu ? item.subMenu[0].replace(/\s+/g, '-').toLowerCase() : "submenu" }`}
                                 className={"flex items-center gap-1 "}
 
                             >

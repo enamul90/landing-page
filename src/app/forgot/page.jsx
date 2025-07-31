@@ -77,7 +77,7 @@ const ForgotPasswordPage = () => {
                         />
                         <button
                             onClick={sendOtp}
-                            className="w-full mt-4 bg-secondary text-white py-2 rounded-md hover:bg-secondary"
+                            className="w-full mt-4 bg-secondary text-white py-2 rounded-md hover:bg-secondary cursor-pointer"
                         >
                             Send OTP
                         </button>
@@ -97,7 +97,7 @@ const ForgotPasswordPage = () => {
                         />
                         <button
                             onClick={verifyOtp}
-                            className="w-full mt-4 bg-primary text-white py-2 rounded-md hover:bg-primary "
+                            className="w-full mt-4 bg-primary text-white py-2 rounded-md hover:bg-primary cursor-pointer "
                         >
                             Verify OTP
                         </button>
@@ -127,7 +127,7 @@ const ForgotPasswordPage = () => {
 
                         <button
                             onClick={resetPassword}
-                            className="w-full mt-4 bg-secondary text-white py-2 rounded-md hover:bg-secondary"
+                            className="w-full mt-4 bg-secondary text-white py-2 rounded-md hover:bg-secondary cursor-pointer"
                         >
                             Update Password
                         </button>

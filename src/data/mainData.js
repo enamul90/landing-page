@@ -33,7 +33,7 @@ export const menuItems = [
         name: 'Order History',
         path: 'order',
         icon: <FaCartArrowDown className="w-5 h-5 shrink-0 transition-colors duration-300" />,
-        subMenu : ["Pending", "Delivered Order","New Order"]
+        subMenu : ["New Order","Pending", "Delivered Order"]
     },
     {
         name: 'Configure Page',
