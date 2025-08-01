@@ -3,7 +3,7 @@ import React from 'react';
 const VideoSection = () => {
     return (
         <>
-            <div className={"video-section lg:py-3 py-2 lg:mt-20 md:mt-16 mt-8"}>
+            <div className={"video-section lg:p-3 p-2 lg:mt-20 md:mt-16 mt-8"}>
                 <h2 className={"lg:text-2xl md:text-xl text-lg text-white font-medium text-center"}>
                     বিস্তারিত ভিডিওতে
                 </h2>

@@ -17,7 +17,7 @@
   --color-Text-100: #1f1f27;
   --color-Text-75: #373737;
   --color-Text-50: #898990;
-  --color-Line: #a5a5a5;
+  --color-Line: #dfdfdf;
 
 
   --color-border:#E1E6ED;
@@ -29,6 +29,6 @@
 }
 
 .reviewSection {
-  border-radius: 50px 0;
+  border-radius: 20px 0;
   background: linear-gradient(90deg, #F1A350 0%, #64A2F8 50.58%, #F1A350 100%);
 }

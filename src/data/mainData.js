@@ -67,52 +67,52 @@ export const dashboardCards = [
     {
         title: 'Total Users',
         value: '1,234',
-        icon: <FaUsers className="lg:lg:text-4xl text-2xl text-secondary" />
+        icon: <FaUsers className="lg:text-3xl text-2xl text-secondary" />
     },
     {
         title: 'Active Sessions',
         value: '567',
-        icon: <FaChartLine className="lg:text-4xl text-2xl text-secondary" />
+        icon: <FaChartLine className="lg:text-3xl text-2xl text-secondary" />
     },
     {
         title: 'Revenue',
         value: '$12,345',
-        icon: <FaDollarSign className="lg:text-4xl text-2xl text-secondary" />
+        icon: <FaDollarSign className="lg:text-3xl text-2xl text-secondary" />
     },
     {
         title: 'Total Orders',
         value: '894',
-        icon: <FaShoppingCart className="lg:text-4xl text-2xl text-secondary" />
+        icon: <FaShoppingCart className="lg:text-3xl text-2xl text-secondary" />
     },
     {
         title: 'Products Sold',
         value: '2,450',
-        icon: <FaBoxOpen className="lg:text-4xl text-2xl text-secondary" />
+        icon: <FaBoxOpen className="lg:text-3xl text-2xl text-secondary" />
     },
     {
         title: 'New Customers',
         value: '321',
-        icon: <FaUserPlus className="lg:text-4xl text-2xl text-secondary" />
+        icon: <FaUserPlus className="lg:text-3xl text-2xl text-secondary" />
     },
     {
         title: 'Pending Orders',
         value: '47',
-        icon: <FaHourglassHalf className="lg:text-4xl text-2xl text-secondary" />
+        icon: <FaHourglassHalf className="lg:text-3xl text-2xl text-secondary" />
     },
     {
         title: 'Low Stock Items',
         value: '16',
-        icon: <FaExclamationTriangle className="lg:text-4xl text-2xl text-secondary" />
+        icon: <FaExclamationTriangle className="lg:text-3xl text-2xl text-secondary" />
     },
     {
         title: 'Customer Reviews',
         value: '1,038',
-        icon: <FaStar className="lg:text-4xl text-2xl text-secondary" />
+        icon: <FaStar className="lg:text-3xl text-2xl text-secondary" />
     },
     {
         title: 'Returns',
         value: '23',
-        icon: <FaUndoAlt className="lg:text-4xl text-2xl text-secondary" />
+        icon: <FaUndoAlt className="lg:text-3xl text-2xl text-secondary" />
     },
 ];
 

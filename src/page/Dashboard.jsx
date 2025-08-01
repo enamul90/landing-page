@@ -16,7 +16,7 @@ export default function Dashboard() {
             >
               <div>
                 <h3 className="text-Text-75">{card.title}</h3>
-                <p className="text-3xl text-Text-100">{card.value}</p>
+                <p className="lg:text-3xl text-2xl text-Text-100">{card.value}</p>
               </div>
               {card.icon}
 

@@ -23,7 +23,7 @@ export default function LoginPage() {
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-primary/1">
-            <div className="w-full max-w-md p-8 bg-Shave rounded-lg shadow-lg">
+            <div className="w-full max-w-md p-8 bg-Shave rounded-lg shadow border border-Line">
                 <div className="flex justify-center mb-6 h-[130px] w-fit mx-auto">
                     <Image src="/logo/logo.png" alt="Logo" width={100} height={100} className={'h-full w-full object-cover'} />
                 </div>
