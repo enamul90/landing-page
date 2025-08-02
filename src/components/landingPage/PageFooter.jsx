@@ -8,13 +8,13 @@ const PageFooter = () => {
     return (
         <>
             <div className={"bg-[#575757]"}>
-                <div className={"container py-5 mx-auto max-w-6xl px-3  mt-3  flex items-center justify-between"}>
+                <div className={"container py-5 mx-auto max-w-6xl px-3  mt-3  md:flex items-center justify-between space-y-3"}>
                     <div className={"max-w-[800px]"}>
                         <h3 className={"text-lg font-medium text-white"}>About Company</h3>
                         <p className={"text-white/90"}>Open source is source code that is made freely available for possible modification and redistribution. Products include permission to use the source code, design documents, or content of the product.</p>
                     </div>
 
-                    <div>
+                    <div className={"flex md:block items-center gap-3 justify-center"}>
                         <div className={"flex items-center gap-2"}>
                             <MdOutlineWhatsapp className={"text-white text-lg"} />
                             <h5 className={"text-white"}>017229240879</h5>

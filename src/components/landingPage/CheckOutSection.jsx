@@ -119,7 +119,6 @@ const CheckOutSection = ({title = "" , description = ""}) => {
                                     <div className={"flex  gap-3"}>
                                         <input
                                             type="radio"
-                                            name={name}
                                             value={option}
                                             className="form-radio text-primary focus:ring-primary "
                                         />
