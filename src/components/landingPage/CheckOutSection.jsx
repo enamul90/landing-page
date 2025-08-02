@@ -3,8 +3,23 @@ import React, {useState} from 'react';
 import {IoMdAdd, IoMdRemove} from "react-icons/io";
 import Input from "@/components/form/Input";
 
+
 const CheckOutSection = ({title = "" , description = ""}) => {
     const [checked, setChecked] = useState(false);
+
+    const options = [
+        "S = 52  Size",
+        "S = 52 Size",
+        "S = 52 Size",
+        "S = 52 Size",
+    ]
+
+    const shipping = [
+        "ঢাকার ভিতরে :     80Tk",
+        "ঢাকার বাহিরে :     120Tk",
+    ]
+
+
 
     return (
         <>
@@ -94,9 +109,57 @@ const CheckOutSection = ({title = "" , description = ""}) => {
                     অর্ডার করতে সঠিক তথ্য দিয়ে নিচের ফর্মটি পূরন করুন
                 </h5>
 
-                <div className={"grid lg:grid-cols-2 gap-3 pb-5"}>
+                <div className={"grid lg:grid-cols-2 gap-6 pb-5"}>
 
                     <div>
+                        <h3 className={"font-semibold text-Text-100"}>সাইজ সিলেক্ট করুন</h3>
+
+                        <div className="mt-2 space-y-2">
+                                {options.map((option) => (
+                                    <div className={"flex  gap-3"}>
+                                        <input
+                                            type="radio"
+                                            name={name}
+                                            value={option}
+                                            className="form-radio text-primary focus:ring-primary "
+                                        />
+                                        <span className=" text-Text-100 font-semibold">{option}</span>
+                                    </div>
+                                ))}
+                        </div>
+
+                        <div className={"mt-6  space-y-4"}>
+                            <Input
+                                LabelName={"আপনার নামঃ"}
+                                Placeholder={"তোমার নাম"}
+                            />
+                            <Input
+                                LabelName={"সম্পুর্ন ঠিকানাঃ"}
+                                Placeholder={"বাসার নং, রোড নং, থানা, জেলা"}
+                            />
+
+                            <Input
+                                LabelName={"ফোন নাম্বারঃ"}
+                                Placeholder={"01722924089"}
+                            />
+                        </div>
+
+                        <h3 className={"font-semibold text-Text-100 mt-6"}>Shipping</h3>
+
+                        <div className="mt-2 space-y-2">
+                            {shipping.map((option, index) => (
+                                <div key={index} className={"flex  gap-3"}>
+                                    <input
+                                        type="radio"
+                                        name={option}
+                                        value={option}
+                                        className="form-radio text-primary focus:ring-primary "
+                                    />
+                                    <span className=" text-Text-100 font-semibold">{option}</span>
+                                </div>
+                            ))}
+                        </div>
+
 
                     </div>
 
@@ -110,7 +173,7 @@ const CheckOutSection = ({title = "" , description = ""}) => {
 
                         {
                             ["","","",""].map((item, index) => (
-                                <div className={"flex gap-3 items-center mb-2"} >
+                                <div key={index} className={"flex gap-3 md:items-center mb-2"} >
                                     <div className={"h-16 w-16 shrink-0"}>
                                         <img
                                             src={"/images/product.png"}
@@ -119,10 +182,12 @@ const CheckOutSection = ({title = "" , description = ""}) => {
                                         />
                                     </div>
 
-                                    <h5 className={"text-Text-100  flex-1"}>
-                                        {"প্রিমিয়াম কোয়ালিটির বোরকাটি পাচ্ছেন এখন ৪৭% ডিসকাউন্ট। প্রিমিয়াম কোয়ালিটির কাপড় এবং অরজিনাল"}
-                                    </h5>
-                                    <h5 className={"text-Text-100 font-medium shrink-0"}>1 x 12500</h5>
+                                    <div className={"md:flex gap-3"}>
+                                        <h5 className={"text-Text-100 text-sm md:text-base flex-1"}>
+                                            {"প্রিমিয়াম কোয়ালিটির বোরকাটি পাচ্ছেন এখন ৪৭% ডিসকাউন্ট। প্রিমিয়াম কোয়ালিটির কাপড় এবং অরজিনাল"}
+                                        </h5>
+                                        <h5 className={"text-Text-100 font-medium shrink-0"}>1 x 12500</h5>
+                                    </div>
 
                                 </div>
                             ))
@@ -153,7 +218,7 @@ const CheckOutSection = ({title = "" , description = ""}) => {
                     </div>
                 </div>
 
-                <p className={"col-span-2 text text-center my-6 text-Text-100"}>
+                <p className={"col-span-2 text-sm md:text-base text-center my-6 text-Text-100"}>
                     {"আপনি সরাসরি আমাদের ডিসপ্লে সেন্টার থেকে প্রোডাক্ট দেখে কালেক্ট করতে পারবেন। আপনি চাইলে আমাদের শো-রুম ভিসিট করতে পারেন শো-রুম এর ঠিকানাঃ ৩৮, রোডঃ ৮/১, ব্লক- ই, দক্ষিন বনশ্রী, ঢাকা-১২১৯"}
                 </p>
 

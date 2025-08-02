@@ -7,6 +7,7 @@ import ProductSection from "@/components/landingPage/ProductSection";
 import ListData from "@/components/landingPage/ListDataSection";
 import ReviewSection from "@/components/landingPage/ReviewSection";
 import CheckOutSection from "@/components/landingPage/CheckOutSection";
+import PageFooter from "@/components/landingPage/PageFooter";
 
 const Page = () => {
     const data = [
@@ -59,11 +60,10 @@ const Page = () => {
                     description={"বি:দ্র: অর্ডার করার জন্য আপনার নাম ,ঠিকানা মোবাইল নাম্বার , কালার এবং সাইজ সিলেকশন সঠিক আছে কিনা যাচাই করে নিবেন। যাতে কোন ভুল-ত্রুটি ছাড়াই আপনার কাঙ্খিত পণ্যটি আপনার হাতে পৌঁছে দিতে পারি। প্রয়োজন ব্যতীত অর্ডার করা থেকে বিরত থাকুন। একটি ভুল অর্ডার সম্পন্ন দায় আপনাকে নিতে হবে হয়তো দুনিয়াতে না হয় আখিরাতে।"}
                 />
 
-
             </div>
 
+            <PageFooter />
 
-            <div className={"py-20"}></div>
         </>
     );
 };
