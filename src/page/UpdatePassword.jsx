@@ -11,21 +11,30 @@ const UpdatePassword = () => {
                     <PasswordInput
                         label={"Old Password"}
                         name="Old Password"
-                        value={"123456"}
+                        placeHolder={"Type Here"}
+
+
                     />
 
                     <PasswordInput
                         label={"New Password"}
                         name="New Password"
+                        placeHolder={"Type Here"}
+
                     />
 
                     <PasswordInput
                         label={"Confirm Password"}
                         name="Confirm Password"
+                        placeHolder={"Type Here"}
+
 
                     />
 
-                    <Button type={"submit"}   />
+                    <div className={"text-end"}>
+                        <Button type={"submit"}   />
+                    </div>
+
                 </form>
             </div>
         </div>

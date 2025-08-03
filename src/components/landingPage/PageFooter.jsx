@@ -2,7 +2,7 @@ import React from 'react';
 import { MdOutlineWhatsapp } from "react-icons/md";
 import {IoIosCall, IoLogoYoutube} from "react-icons/io";
 import { FaFacebookF } from "react-icons/fa";
-import {RiYoutubeLine} from "react-icons/ri";
+
 
 const PageFooter = () => {
     return (

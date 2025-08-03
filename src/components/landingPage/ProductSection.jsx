@@ -33,8 +33,8 @@ const ProductSection = () => {
                             </div>
 
                             <div className={"flex gap-6 items-center mt-3"}>
-                                <h3 className={"text-xl text-Text-100 font-medium mt-1"}>
-                                    $400.54 <span className={"text-Text-75 ms-4 line-through text-lg"}>$400.54</span>
+                                <h3 className={"text-xl text-Text-100 font-medium mt-1 me-4"}>
+                                    $400.54 <span className={"text-Text-75 line-through text-lg"}>$400.54</span>
                                 </h3>
 
                                 <div className={"flex gap-4 items-center border border-Line rounded-md  w-fit text-lg font-medium"}>

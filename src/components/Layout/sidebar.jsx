@@ -28,7 +28,7 @@ export function Sidebar({isOpen = true}) {
                 <ul>
                     {menuItems.map((item, index) => (
                         <li key={index} className={` py-2 w-full ps-4 mb-3 text-white
-                                   hover:bg-secondary hover:text-white
+                                   hover:bg-secondary/40 hover:text-white
                                    transition-colors duration-300 ease-in-out ${mainPage === item.path && "bg-primary/60" +
                         " border-e-2 border-primary"} ${!isOpen && "justify-center"}`}>
                             <Link

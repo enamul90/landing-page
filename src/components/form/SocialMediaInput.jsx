@@ -78,10 +78,6 @@ export default function SocialMediaInput() {
                 </div>
             )}
 
-
-            <div className={"mt-8"}>
-                <Button />
-            </div>
         </div>
     );
 }

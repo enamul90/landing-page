@@ -4,6 +4,7 @@ import Input from "@/components/form/Input";
 import TextArea from "@/components/form/TextArea";
 import ImageUpload from "@/components/form/ImageUpload";
 import SocialMediaInput from "@/components/form/SocialMediaInput";
+import Button from "@/components/button/Button";
 
 
 export default function SettingPage() {
@@ -20,6 +21,10 @@ export default function SettingPage() {
                 <Input
                     LabelName={"Page Name"}
                     Placeholder={"Enter Page Name"}
+                />
+                <Input
+                    LabelName={"Copyright Text"}
+                    Placeholder={"Type here"}
                 />
                 <TextArea
                     LabelName={"Description"}
@@ -39,6 +44,10 @@ export default function SettingPage() {
 
 
                 <SocialMediaInput />
+
+                <div className={"mt-8 text-end"}>
+                    <Button />
+                </div>
             </div>
 
 

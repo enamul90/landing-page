@@ -1,6 +1,6 @@
 import {AiFillProduct} from "react-icons/ai";
 import {MdDashboardCustomize, MdPassword} from "react-icons/md";
-import {FaCartArrowDown, FaUser} from "react-icons/fa";
+import {FaCartArrowDown } from "react-icons/fa";
 
 
 import {
@@ -16,6 +16,7 @@ import {
     FaUndoAlt
 } from 'react-icons/fa';
 import {IoConstructSharp, IoSettingsSharp} from "react-icons/io5";
+import {FaCartShopping} from "react-icons/fa6";
 
 export const menuItems = [
     {
@@ -41,6 +42,11 @@ export const menuItems = [
         icon: <IoConstructSharp className="w-5 h-5 shrink-0 transition-colors duration-300" />,
     },
     {
+        name: 'Configure Card',
+        path: 'card',
+        icon: <FaCartShopping className="w-5 h-5 shrink-0 transition-colors duration-300" />,
+    },
+    {
         name: 'Review',
         path: 'review',
         icon: <FaStar className="w-5 h-5 shrink-0 transition-colors duration-300" />,
@@ -50,11 +56,7 @@ export const menuItems = [
         path: 'password',
         icon: <MdPassword className="w-5 h-5 shrink-0 transition-colors duration-300" />,
     },
-    {
-        name: 'Profile',
-        path: 'profile',
-        icon: <FaUser className="w-5 h-5 shrink-0 transition-colors duration-300" />,
-    },
+
     {
         name: 'Settings',
         path: 'setting',

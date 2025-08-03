@@ -3,7 +3,6 @@ import React, from 'react';
 import { useRouter } from 'next/navigation';
 import {Sidebar} from "@/components/Layout/sidebar";
 import Dashboard from "@/page/Dashboard";
-
 import { useParams } from 'next/navigation';
 import { IoMdShareAlt} from "react-icons/io";
 import ProductList from "@/page/ProductList";
@@ -12,6 +11,7 @@ import {GiHamburgerMenu} from "react-icons/gi";
 import UpdatePassword from "@/page/UpdatePassword";
 import SettingPage from "@/page/SettingPage";
 import Drawer from "@/components/Layout/Drawer";
+import ReviewSection from "@/page/ReviewSection";
 
 const Page = () => {
     const router = useRouter();
@@ -27,7 +27,7 @@ const Page = () => {
 
 
     return (
-        <div className="flex h-screen bg-Back ">
+        <div className="flex h-dvh bg-Back ">
             <Drawer status={drawerOpen} action={setDrawerOpen} />
             {/* Sidebar */}
             <div
@@ -37,7 +37,7 @@ const Page = () => {
 
             {/* Main Content */}
             <div className="flex-1 shadow-lg h-full overflow-auto ">
-                <header className="flex justify-between items-center px-4 py-4 bg-Shave rounded-xs sticky top-0 z-10 ">
+                <header className="flex justify-between items-center px-4 py-4 bg-Shave rounded-xs sticky top-0 z-10 shadow ">
 
                     <div className="flex items-center space-x-3 cursor-pointer ">
 
@@ -63,9 +63,15 @@ const Page = () => {
                 {
                     mainPage === "order" &&  <OrderPage />
                 }
-
+                {
+                    mainPage === "review" &&  <ReviewSection/>
+                }
                 {
                     mainPage === "password" &&  <UpdatePassword />
+                }
+
+                {
+                    mainPage === "profile" &&   <h2 className={"text-center mt-5"}>Profile Section</h2>
                 }
 
                 {

@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 
-export default function PasswordInput({ label = "Password", name = "password", value, onChange, required = true }) {
+export default function PasswordInput({ label = "Password", name = "password", value, onChange, required = true, placeHolder = "Enter" }) {
     const [showPassword, setShowPassword] = useState(false);
 
     const togglePasswordVisibility = () => {
@@ -22,6 +22,7 @@ export default function PasswordInput({ label = "Password", name = "password", v
                     value={value}
                     onChange={onChange}
                     required={required}
+                    placeholder={placeHolder}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                     aria-describedby={`${name}-toggle`}
                 />

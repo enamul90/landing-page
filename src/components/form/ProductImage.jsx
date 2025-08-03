@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Upload } from 'lucide-react';
 
-export default function ImageUpload() {
+export default function ProductImage() {
     const [preview, setPreview] = useState(null);
 
     const handleImageChange = (e) => {
@@ -20,7 +20,7 @@ export default function ImageUpload() {
     return (
         <div className="mb-4">
             <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-1">
-                Upload logo
+                Product Thumbnail
             </label>
             <div className="relative">
                 <input
@@ -33,8 +33,9 @@ export default function ImageUpload() {
                     aria-describedby="image-upload"
                 />
                 <div
-                    className="w-36 h-36 overflow-hidden border-2 border-dashed border-gray-300 flex items-center justify-center bg-gray-50
-                    hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2  rounded-full mx-auto"
+                    className="w-full h-36 overflow-hidden border border-Line flex items-center justify-center bg-gray-50
+                    hover:bg-gray-100 transition-colors duration-200
+                    focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2  rounded-md mx-auto shadow"
                     role="button"
                     tabIndex={0}
                 >
