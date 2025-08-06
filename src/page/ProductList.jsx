@@ -20,11 +20,11 @@ export default function ProductList() {
             }
 
             {/* Header */}
-            <div className="gap-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 mb-6">
+            <div className="gap-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-8 mb-6">
                 <div className={"h-full flex items-center lg:col-span-3"}>
                     <h2 className="lg:text-xl text-lg font-semibold uppercase text-Text-100">Product List</h2>
                 </div>
-                <div className=" col-span-3 gap-3 grid grid-cols-2 md:grid-cols-4  ">
+                <div className=" col-span-3 gap-3 grid grid-cols-2 md:grid-cols-4 lg:col-span-5  ">
                     <select
                         className=" col-span-2 md:col-span-2  px-4 w-full  py-2 border border-Line rounded-md bg-white text-lightText-100 focus:outline-none
                         focus:ring-1 focus:ring-primary transition

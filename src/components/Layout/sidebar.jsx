@@ -15,7 +15,7 @@ export function Sidebar({isOpen = true}) {
 
     return (
         <aside
-            className={`bg-back text-text-100 w-full flex flex-col h-screen transition-transform duration-300 ease-in-out `}
+            className={` bg-back text-text-100 w-full flex flex-col h-screen transition-transform duration-300 ease-in-out `}
         >
             <div className=" flex items-center justify-center mt-10 mb-5 mx-auto w-full px-1">
                 <div className="flex justify-center mb-6 h-[100px] w-fit mx-auto">
@@ -28,7 +28,7 @@ export function Sidebar({isOpen = true}) {
                 <ul>
                     {menuItems.map((item, index) => (
                         <li key={index} className={` py-2 w-full ps-4 mb-3 text-white
-                                   hover:bg-secondary/40 hover:text-white
+                                   hover:bg-primary/80 hover:text-white
                                    transition-colors duration-300 ease-in-out ${mainPage === item.path && "bg-primary/60" +
                         " border-e-2 border-primary"} ${!isOpen && "justify-center"}`}>
                             <Link

@@ -13,6 +13,13 @@ const CheckOutSection = ({title = "" , description = ""}) => {
         "S = 52 Size",
         "S = 52 Size",
     ]
+    const colors = [
+        "green",
+        "red",
+        "blue",
+        "purple",
+    ]
+
 
     const shipping = [
         "ঢাকার ভিতরে :     80Tk",
@@ -125,6 +132,21 @@ const CheckOutSection = ({title = "" , description = ""}) => {
                                         <span className=" text-Text-100 font-semibold">{option}</span>
                                     </div>
                                 ))}
+                        </div>
+
+                        <h3 className={"font-semibold text-Text-100 mt-5"}>কালার সিলেক্ট করুন</h3>
+
+                        <div className="mt-2 space-y-2">
+                            {colors.map((option) => (
+                                <div className={"flex  gap-3"}>
+                                    <input
+                                        type="radio"
+                                        value={option}
+                                        className="form-radio text-primary focus:ring-primary "
+                                    />
+                                    <span className=" text-Text-100 font-semibold">{option}</span>
+                                </div>
+                            ))}
                         </div>
 
                         <div className={"mt-6  space-y-4"}>

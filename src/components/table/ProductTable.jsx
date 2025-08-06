@@ -5,6 +5,7 @@ import Link from 'next/link';
 import  {products} from "@/data/mainData"
 import {MdPreview} from "react-icons/md";
 import { FiEdit, FiTrash2,} from 'react-icons/fi';
+import SwitchToggle from "@/components/button/SwitchToggle";
 
 const ProductTable = () => {
     return (
@@ -23,6 +24,7 @@ const ProductTable = () => {
                             />
                         </th>
                         <th className="p-4 text-left">Name</th>
+                        <th className="p-4 text-left">Show landing page</th>
                         <th className="p-4 text-left">Price</th>
                         <th className="p-4 text-left">Sell Price</th>
                         <th className="p-4 text-left">Stock</th>
@@ -46,6 +48,9 @@ const ProductTable = () => {
                                     />
                                 </td>
                                 <td className="p-4">{product.name}</td>
+                                <td className="p-4">
+                                    <SwitchToggle />
+                                </td>
                                 <td className="p-4">${product.price.toFixed(2)}</td>
                                 <td className="p-4">${product.price.toFixed(2)}</td>
                                 <td className="p-4">{product.stock}</td>

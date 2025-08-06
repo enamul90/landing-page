@@ -32,3 +32,15 @@
   border-radius: 20px 0;
   background: linear-gradient(90deg, #F1A350 0%, #64A2F8 50.58%, #F1A350 100%);
 }
+
+
+/* Works in modern browsers */
+.scrollbarDiv {
+  overflow: scroll;
+  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+.scrollbarDiv::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari */
+}

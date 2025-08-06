@@ -2,6 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 import {MdDelete} from "react-icons/md";
+import ImageUploadModal from "@/modal/ImageUploadModal";
 
 const ReviewSection = () => {
     const images = [
@@ -19,10 +20,11 @@ const ReviewSection = () => {
     return (
         <div className="lg:p-6 p-3 bg-gray-100 min-h-screen">
 
-            <div className={"md:mb-8 mb-5 flex items-center justify-between"}>
-                <h1 className="text-2xl font-semibold text-Text-100 ">All Review</h1>
 
-                <button className={"px-3 py-2 bg-secondary text-white rounded-md text-sm hover:scale-105 transition-transform duration-300 cursor-pointer "}>Add Review</button>
+            <div className={"md:mb-8 mb-5 flex items-center justify-between"}>
+                <h1 className="text-xl font-semibold text-Text-100 ">All Review</h1>
+
+                <ImageUploadModal />
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 lg:gap-6 gap-4 ">
@@ -39,7 +41,7 @@ const ReviewSection = () => {
                                 priority={index < 3} // Optimize loading for first few images
                             />
 
-                            <button className={"absolute top-3 right-3 text-secondary  "}>
+                            <button className={"absolute top-3 right-3 text-T"}>
                                 <MdDelete className={"text-2xl font-semibold cursor-pointer"} />
                             </button>
                         </div>

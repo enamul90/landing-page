@@ -1,7 +1,7 @@
 "use Client"
 import { useState } from 'react';
 
-export default function SwitchToggle() {
+export default function SwitchToggle({label = ""}) {
     const [enabled, setEnabled] = useState(false);
 
     return (
@@ -19,7 +19,7 @@ export default function SwitchToggle() {
                         ${enabled ? 'translate-x-6' : 'translate-x-1'}`}
                 />
             </button>
-            <span className=" font-medium text-Text-100">Do you want to show the landing page?</span>
+            <span className=" font-medium text-Text-100"> {label}</span>
         </div>
     );
 }

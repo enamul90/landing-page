@@ -4,7 +4,7 @@ import Button from "@/components/button/Button";
 
 const UpdatePassword = () => {
     return (
-        <div  className="  w-full max-w-2xl mx-auto p-2 lg:p-5">
+        <div  className="  w-full  p-2 lg:p-5">
             <div className={" p-5 bg-Shave rounded-md"}>
                 <h3 className={'text-xl font-medium text-center uppercase mb-2'}>Update Password</h3>
                 <form>

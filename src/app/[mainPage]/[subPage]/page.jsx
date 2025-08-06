@@ -12,6 +12,8 @@ import UpdatePassword from "@/page/UpdatePassword";
 import SettingPage from "@/page/SettingPage";
 import Drawer from "@/components/Layout/Drawer";
 import ReviewSection from "@/page/ReviewSection";
+import ConfigureCard from "@/components/Configure/ConfigureCard";
+import ConfigurePage from "@/components/Configure/ConfigurePage";
 
 const Page = () => {
     const router = useRouter();
@@ -31,7 +33,7 @@ const Page = () => {
             <Drawer status={drawerOpen} action={setDrawerOpen} />
             {/* Sidebar */}
             <div
-                className={`bg-black/90 w-60  text-Text-100 transition-all duration-300 ease-in-out hidden lg:block `}>
+                className={`bg-black/90 w-60 scrollbarDiv h-dvh overflow-auto pb-30 text-Text-100 transition-all duration-300 ease-in-out hidden lg:block `}>
                 <Sidebar   />
             </div>
 
@@ -64,15 +66,18 @@ const Page = () => {
                     mainPage === "order" &&  <OrderPage />
                 }
                 {
+                    mainPage === "configure" && <ConfigurePage />
+                }
+                {
+                    mainPage === "card" &&  <ConfigureCard />
+                }
+                {
                     mainPage === "review" &&  <ReviewSection/>
                 }
                 {
                     mainPage === "password" &&  <UpdatePassword />
                 }
 
-                {
-                    mainPage === "profile" &&   <h2 className={"text-center mt-5"}>Profile Section</h2>
-                }
 
                 {
                     mainPage === "setting" &&    <SettingPage />

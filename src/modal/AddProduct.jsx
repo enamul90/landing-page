@@ -10,7 +10,7 @@ import {MdClose} from "react-icons/md";
 
 const AddProduct = ({Close}) => {
     return (
-        <div className={"h-dvh w-full bg-black/90 fixed top-0 left-0 z-50 flex items-center justify-center "}>
+        <div className={"h-dvh w-full bg-black/80 fixed top-0 left-0 z-50 flex items-center justify-center "}>
             <div
                 className={"w-full max-w-7xl max-h-[80%] bg-white rounded-md p-4 pt-0   overflow-y-auto "}
             >
@@ -43,7 +43,7 @@ const AddProduct = ({Close}) => {
                         <TextArea LabelName={"Description"} Placeholder={"Type here"} />
 
                         <div>
-                            <SwitchToggle />
+                            <SwitchToggle label={"Do you want to show the landing page?"} />
                         </div>
 
                     </div>
