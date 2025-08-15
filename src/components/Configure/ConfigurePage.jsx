@@ -1,11 +1,20 @@
 import React from 'react';
 import Input from "@/components/form/Input";
-import TextArea from "@/components/form/TextArea";
 import Button from "@/components/button/Button";
+import {sectionsData} from "@/data/mainData";
+import SecondarySection from "@/components/Configure/SecondarySection";
+import CreateSectionModal from "@/modal/CreateSectionModal";
+
 
 const ConfigurePage = () => {
+    const handleSave = (sectionData) => {
+        console.log("Saved section:", sectionData);
+    };
+
+
     return (
         <div  className={'px-3 mt-5'}>
+
             <h2 className={"text-lg text-Text-100 font-medium mb-3 uppercase"}>Configure Page</h2>
 
             <div className={'p-4 bg-white rounded-md border border-Line mb-4'}>
@@ -53,11 +62,18 @@ const ConfigurePage = () => {
                 </form>
             </div>
 
-            <div className={"flex items-center justify-between mt-10"}>
-                <h2 className={"text-lg text-Text-100 font-medium mb-3 uppercase"}>Secondary Section</h2>
-                <button className={"text-sm font-medium text-white bg-black px-3 py-2 rounded-md cursor-pointer"} >
-                    Add New Section
-                </button>
+            <div className={"flex items-center justify-between mt-10  mb-4"}>
+                <h2 className={"text-lg text-Text-100 font-medium uppercase"}>Secondary Section</h2>
+                <CreateSectionModal onSave={handleSave} />
+            </div>
+
+
+            <div>
+                {
+                    sectionsData.map((section, index) => (
+                        <SecondarySection section={section} key={index} />
+                    ))
+                }
             </div>
 
 

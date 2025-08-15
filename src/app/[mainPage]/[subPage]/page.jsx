@@ -24,7 +24,7 @@ const Page = () => {
     const {mainPage} = params;
 
     const goLandingPage = () => {
-        router.push("/landingPage");
+        router.push("/landingPage/111");
     }
 
 
@@ -38,7 +38,7 @@ const Page = () => {
             </div>
 
             {/* Main Content */}
-            <div className="flex-1 shadow-lg h-full overflow-auto ">
+            <div className="flex-1 shadow-lg h-dvh overflow-auto ">
                 <header className="flex justify-between items-center px-4 py-4 bg-Shave rounded-xs sticky top-0 z-10 shadow ">
 
                     <div className="flex items-center space-x-3 cursor-pointer ">

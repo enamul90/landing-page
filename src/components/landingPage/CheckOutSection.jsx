@@ -4,7 +4,7 @@ import {IoMdAdd, IoMdRemove} from "react-icons/io";
 import Input from "@/components/form/Input";
 
 
-const CheckOutSection = ({title = "" , description = ""}) => {
+const CheckOutSection = ({title = "" , description = "" ,product =[""]}) => {
     const [checked, setChecked] = useState(false);
 
     const options = [
@@ -42,9 +42,8 @@ const CheckOutSection = ({title = "" , description = ""}) => {
                 <h5 className={"text-Text-100 md:text-lg font-medium "}>পছন্দের প্রোডাক্ট সিলেক্ট করুন</h5>
 
                 <div className={"mt-4 grid  lg:grid-cols-2 gap-4"}>
-
                     {
-                        ["","","",""].map((item, index) => (
+                        product.map((item, index) => (
                             <div key={index} className={"p-2 border border-Line/50 rounded-md overflow-hidden flex gap-3"}>
                                 <label className="cursor-pointer select-none shrink-0">
                                     <input
@@ -116,7 +115,7 @@ const CheckOutSection = ({title = "" , description = ""}) => {
                     অর্ডার করতে সঠিক তথ্য দিয়ে নিচের ফর্মটি পূরন করুন
                 </h5>
 
-                <div className={"grid lg:grid-cols-2 gap-6 pb-5"}>
+                <div id={"card"} className={"grid lg:grid-cols-2 gap-6 pb-5"}>
 
                     <div>
                         <h3 className={"font-semibold text-Text-100"}>সাইজ সিলেক্ট করুন</h3>
@@ -193,7 +192,7 @@ const CheckOutSection = ({title = "" , description = ""}) => {
                         </div>
 
                         {
-                            ["","","",""].map((item, index) => (
+                            product.map((item, index) => (
                                 <div key={index} className={"flex gap-3 md:items-center mb-2"} >
                                     <div className={"h-16 w-16 shrink-0"}>
                                         <img

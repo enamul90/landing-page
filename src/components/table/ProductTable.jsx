@@ -3,61 +3,58 @@ import Image from 'next/image';
 
 import Link from 'next/link';
 import  {products} from "@/data/mainData"
-import {MdPreview} from "react-icons/md";
+import { MdPreview} from "react-icons/md";
 import { FiEdit, FiTrash2,} from 'react-icons/fi';
-import SwitchToggle from "@/components/button/SwitchToggle";
+import {useRouter} from "next/navigation";
+
+
 
 const ProductTable = () => {
+    const router = useRouter();
+    const goToPage = (id) => {
+        router.push(`/singlePage/111`);
+    }
     return (
         <>
             {/* Table for Desktop */}
-            <div className="hidden lg:block bg-black/90 rounded-lg overflow-hidden">
-                <table className="w-full text-white">
-                    <thead>
-                    <tr className=" text-text-100 uppercase">
-                        <th className="p-4 text-left">
-                            <input
-                                className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-2 focus:ring-offset-1
-                                         focus:ring-primary transition duration-200 mx-auto
-                                        "
-                                type={"checkbox"}
-                            />
-                        </th>
-                        <th className="p-4 text-left">Name</th>
-                        <th className="p-4 text-left">Show landing page</th>
-                        <th className="p-4 text-left">Price</th>
-                        <th className="p-4 text-left">Sell Price</th>
-                        <th className="p-4 text-left">Stock</th>
-                        <th className="p-4 text-left">Color</th>
-                        <th className="p-4 text-left">Size</th>
-                        <th className="p-4 text-left">Image</th>
-                        <th className="p-4 text-left">Actions</th>
-                    </tr>
-                    </thead>
+            <div className="hidden lg:block rounded-lg overflow-hidden">
+                <table className="w-full ">
                     <tbody >
+                    <tr className="hover:bg-text-75/10 bg-Shave text-Text-100 text-sm  ">
+                        <th className="px-2 py-3 text-left border-e border-Line">
+                        </th>
+                        <th className="px-2 py-3 text-left border-e border-Line">Title</th>
+                        <th className="px-2 py-3 text-left border-e border-Line">Page Status</th>
+                        <th className="px-2 py-3 text-left border-e border-Line">Price</th>
+                        <th className="px-2 py-3 text-left border-e border-Line">Stock</th>
+                        <th className="px-2 py-3 text-left border-e border-Line">Image</th>
+                        <th className="px-2 py-3 text-left border-e border-Line"> Actions</th>
+                    </tr>
+
                     {products.length > 0 ? (
                         products.map((product) => (
                             <tr key={product.id} className="border-t border-Line hover:bg-text-75/10 bg-Shave text-Text-100  " >
-
-                                <td className="p-4">
+                                <td className="px-4 py-1 border-e border-Line text-center">
                                     <input
-                                        className="h-4 w-4 text-primary border-gray-300 rounded focus:ring-2 focus:ring-offset-1
-                                         focus:ring-primary transition duration-200 mx-auto
+                                        className="h-4 w-4 border border-Line rounded  transition duration-200 mx-auto
                                         "
                                         type={"checkbox"}
                                     />
                                 </td>
-                                <td className="p-4">{product.name}</td>
-                                <td className="p-4">
-                                    <SwitchToggle />
+                                <td className="p-2 border-e border-Line">{product.name}</td>
+                                <td className="p-2 border-e border-Line">
+                                    <div className={"flex items-center gap-3 "}>
+                                        True
+                                    </div>
                                 </td>
-                                <td className="p-4">${product.price.toFixed(2)}</td>
-                                <td className="p-4">${product.price.toFixed(2)}</td>
-                                <td className="p-4">{product.stock}</td>
-                                <td className="p-4">{"Black , Red, "}</td>
-                                <td className="p-4 lowercase">{"lg , md, Xl, 2xl, 3xl "}</td>
-                                <td className="p    -4">
-                                    <div className="w-[70px] h-[50px]">
+                                <td className="p-2 border-e border-Line">
+                                    200
+                                </td>
+                                <td className="p-2 border-e border-Line">
+                                    {product.stock}
+                                </td>
+                                <td className="p-2 border-e border-Line">
+                                    <div className="w-[80px] h-[80px]">
                                         <Image
                                             src={product.image}
                                             alt={product.name}
@@ -68,19 +65,21 @@ const ProductTable = () => {
                                     </div>
 
                                 </td>
-                                <td className="p-4 flex items-center space-x-2 pt-7 ">
-                                    <Link
-                                        href={`/products/edit/${product.id}`}
-                                        className="text-primary hover:text-secondary"
-                                    >
-                                        <FiEdit className="w-5 h-5" />
-                                    </Link>
-                                    <button className="text-secondary cursor-pointer">
-                                        <FiTrash2 className="w-5 h-5" />
-                                    </button>
-                                    <button className="text-secondary cursor-pointer">
-                                        <MdPreview className="w-5 h-5" />
-                                    </button>
+                                <td className="p-2 space-x-2 space-y-2 ">
+                                    <div className={"flex gap-3 "}>
+                                        <Link
+                                            href={`/products/edit/${product.id}`}
+                                            className="text-primary hover:text-secondary"
+                                        >
+                                            <FiEdit className="w-5 h-5" />
+                                        </Link>
+                                        <button className="text-secondary cursor-pointer">
+                                            <FiTrash2 className="w-5 h-5" />
+                                        </button>
+                                        <button onClick={goToPage } className="text-secondary cursor-pointer">
+                                            <MdPreview className="w-5 h-5" />
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))
@@ -94,6 +93,8 @@ const ProductTable = () => {
                     </tbody>
                 </table>
             </div>
+
+
 
 
             {/* Card Layout for Mobile */}

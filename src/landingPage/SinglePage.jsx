@@ -9,7 +9,7 @@ import ReviewSection from "@/components/landingPage/ReviewSection";
 import CheckOutSection from "@/components/landingPage/CheckOutSection";
 import PageFooter from "@/components/landingPage/PageFooter";
 
-const Page = () => {
+const SinglePage = () => {
     const data = [
         "দৈনন্দিন বা বিশেষ অনুষ্ঠানের জন্য পারফেক্ট।",
         "প্রিমিয়াম চেরি ফ্যাব্রিক নরম, মসৃণ, এবং টেকসই, যা আপনাকে দিনভর আরাম দেবে।",
@@ -40,7 +40,9 @@ const Page = () => {
                 <PageTittle />
                 <ImageSlider />
                 <VideoSection />
-                <ProductSection />
+                <ProductSection
+                    product={[1]}
+                />
                 <ListData
                     data={data}
                     title={"কেন এই আবাটি বেছে নেবেন ?"}
@@ -68,4 +70,4 @@ const Page = () => {
     );
 };
 
-export default Page;
+export default SinglePage;

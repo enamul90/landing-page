@@ -3,8 +3,9 @@ import Image from "next/image";
 
 import { IoMdAdd } from "react-icons/io";
 import { IoMdRemove } from "react-icons/io";
+import Link from "next/link";
 
-const ProductSection = () => {
+const ProductSection = ({product = [1,1,1,]}) => {
     return (
         <>
             <div className={"video-section lg:p-3 p-2 lg:mt-20 md:mt-16 mt-8"}>
@@ -14,7 +15,7 @@ const ProductSection = () => {
             </div>
 
             {
-                [1,1,1,].map((item, index) => (
+                product.map((item, index) => (
                     <div key={index} className={"p-4 bg-Shave border border-Line rounded gap-6 items-center md:flex space-y-10 md:space-y-0"}>
                         <div className={"md:w-80 lg:w-100 w-full h-95 lg:h-130 shrink-0"}>
                             <Image
@@ -52,13 +53,14 @@ const ProductSection = () => {
 
                             <div className={"mt-3 space-x-5"}>
 
-                                <button
+                                <Link
+                                    href="#card"
                                     className={
                                         "px-3 py-2 bg-primary rounded text-white font-medium cursor-pointer transition duration-300 ease-in-out  hover:scale-105"
                                     }
                                 >
                                     ক্রয় করুন
-                                </button>
+                                </Link>
                                 <button
                                     className={
                                         "px-3 py-2 bg-secondary rounded text-white font-medium cursor-pointer transition duration-300 ease-in-out hover:scale-105"

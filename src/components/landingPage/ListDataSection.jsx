@@ -1,5 +1,6 @@
 import React from 'react';
 import { SiFiledotio } from "react-icons/si";
+import Link from "next/link";
 
 
 const ListDataSection = ({data=[], title = ""}) => {
@@ -27,7 +28,12 @@ const ListDataSection = ({data=[], title = ""}) => {
             </div>
 
             <div className={"mt-6 text-center"}>
-                <button className={"px-3 py-2 bg-primary rounded text-white font-medium cursor-pointer transition duration-300 ease-in-out  hover:scale-105"}>ক্রয় করতে আগ্রহী </button>
+                <Link
+                    href="#card"
+                    className={"px-3 py-2 bg-primary rounded text-white font-medium cursor-pointer transition duration-300 ease-in-out  hover:scale-105"}
+                >
+                    ক্রয় করতে আগ্রহী
+                </Link>
             </div>
 
 

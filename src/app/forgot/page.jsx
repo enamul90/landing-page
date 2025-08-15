@@ -49,7 +49,7 @@ const ForgotPasswordPage = () => {
         // Send password update to backend here
         setError('');
         alert('Password has been updated. Redirecting to login...');
-        router.push('/dashboard/index')
+        router.push('/')
     };
 
     return (
@@ -71,7 +71,7 @@ const ForgotPasswordPage = () => {
                         <input
                             type="email"
                             placeholder="you@example.com"
-                            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
+                            className="w-full px-3 py-2 border border-Line  rounded-md focus:outline-none focus:ring-1 focus:ring-secondary"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
@@ -91,7 +91,7 @@ const ForgotPasswordPage = () => {
                         <input
                             type="text"
                             placeholder="Enter 6-digit OTP"
-                            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary "
+                            className="w-full px-3 py-2 border border-Line rounded-md focus:outline-none focus:ring-2 focus:ring-secondary "
                             value={otp}
                             onChange={(e) => setOtp(e.target.value)}
                         />
@@ -111,7 +111,7 @@ const ForgotPasswordPage = () => {
                         <input
                             type="password"
                             placeholder="New Password"
-                            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
+                            className="w-full px-3 py-2 border border-Line rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
@@ -120,7 +120,7 @@ const ForgotPasswordPage = () => {
                         <input
                             type="password"
                             placeholder="Confirm Password"
-                            className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
+                            className="w-full px-3 py-2 border border-Line rounded-md focus:outline-none focus:ring-2 focus:ring-secondary"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
@@ -137,7 +137,7 @@ const ForgotPasswordPage = () => {
                 <div className="text-center pt-4">
                     <button
                         className="text-secondary text-sm hover:underline"
-                        onClick={() => router.push('/login')}
+                        onClick={() => router.push('/')}
                     >
                         Back to Login
                     </button>
