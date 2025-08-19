@@ -5,16 +5,29 @@ import Image from "next/image";
 import {useParams, useRouter} from 'next/navigation';
 
 import {menuItems} from "@/data/mainData"
-import {FaSignOutAlt} from "react-icons/fa";
+import {FaSignInAlt, FaSignOutAlt} from "react-icons/fa";
+import API from "@/app/utils/axios";
 
 
 export function Sidebar({isOpen = true}) {
     const params = useParams();
     const {subPage, mainPage} = params;
-
     const router = useRouter();
-    const logout = ()=>{
-        router.push('/');
+
+    const [loading, setLoading] = React.useState(false);
+
+    const logout = async ()=>{
+        setLoading(true);
+        try {
+            await API.post("/user/logout");
+            router.push('/');
+        }
+        catch (error) {
+            console.log(error);
+            alert("Something went wrong");
+        }
+
+        setLoading(false);
     }
 
     return (
@@ -85,7 +98,10 @@ export function Sidebar({isOpen = true}) {
                             "flex items-center gap-3 p-2 w-full px-4 mb-6 text-white cursor-pointer hover:bg-primary  transition-colors duration-300 ease-in-out "
                         }
                         >
-                            <FaSignOutAlt />
+                            {
+                                loading ? <div className={"loader"}></div> : <FaSignOutAlt />
+                            }
+
                             Sign Out
                         </button>
                     </li>

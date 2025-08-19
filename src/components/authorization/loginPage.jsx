@@ -5,20 +5,45 @@ import Image from 'next/image';
 import Link from "next/link";
 
 import { useRouter } from 'next/navigation';
+import API from "@/app/utils/axios"
 
 export default function LoginPage() {
 
     const router = useRouter();
 
-    const [username, setUsername] = useState('');
+    const [email, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
 
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (e) => {
+    const loginData = {
+        email,
+        password,
+    }
+
+
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        router.push('/dashboard/index');
+        try {
+            setLoading(true);
+            const res = await API.post("/user/login", loginData);
+            if (res.data.status === 200) {
+                router.push('/dashboard/index');
+            }
+            else {
+                alert(res.data.message);
+            }
+
+            setLoading(false);
+        }
+        catch (e) {
+            alert("Error logging in!");
+        }
+
+
     };
 
     return (
@@ -30,14 +55,15 @@ export default function LoginPage() {
                 <h1 className="text-3xl font-bold text-center text-Text-100 mb-6">Login</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label htmlFor="username" className="block text-Text-75 mb-1">Username</label>
+                        <label htmlFor="username" className="block text-Text-75 mb-1">Email address</label>
                         <input
                             type="text"
                             id="username"
-                            value={username}
+                            value={email}
                             onChange={(e) => setUsername(e.target.value)}
                             className="w-full p-2 border border-Line rounded bg-Shave text-Text-50 outline-0"
-                            placeholder="Enter username"
+                            placeholder="Enter email address."
+                            required
                         />
                     </div>
                     <div>
@@ -49,6 +75,7 @@ export default function LoginPage() {
                             onChange={(e) => setPassword(e.target.value)}
                             className="w-full p-2 border border-Line rounded bg-Shave  text-Text-50 outline-0"
                             placeholder="Enter password"
+                            required
                         />
                     </div>
                     <p className="text-sm text-gray-600">
@@ -59,9 +86,13 @@ export default function LoginPage() {
                     </p>
                     <button
                         type="submit"
-                        className="w-full py-2 bg-primary text-Text-100 rounded hover:bg-secondary hover:text-Shave transition duration-300 cursor-pointer"
+                        className="w-full py-2 bg-primary  rounded hover:bg-secondary
+                        text-Shave transition duration-300 cursor-pointer flex items-center gap-3 justify-center"
                     >
                         Submit
+                        {
+                            loading && <div className={"loader"}></div>
+                        }
                     </button>
                 </form>
             </div>
