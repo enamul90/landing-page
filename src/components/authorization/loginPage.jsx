@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from "next/link";
+import { toast } from "react-hot-toast";
 
 import { useRouter } from 'next/navigation';
 import API from "@/app/utils/axios"
@@ -32,9 +33,10 @@ export default function LoginPage() {
             const res = await API.post("/user/login", loginData);
             if (res.data.status === 200) {
                 router.push('/dashboard/index');
+                toast.success("Log In Sucessfully");
             }
             else {
-                alert(res.data.message);
+                toast.error(res.data.message);
             }
 
             setLoading(false);

@@ -1,4 +1,6 @@
-import React from 'react';
+"use client"
+
+import React, { useEffect, useState } from 'react';
 import PageNaveBar from "@/components/landingPage/PageNaveBar";
 import PageTittle from "@/components/landingPage/PageTittle";
 import ImageSlider from "@/components/landingPage/ImageSlider";
@@ -33,39 +35,42 @@ const FreePage = () => {
     ]
 
     return (
-        <>
-            <PageNaveBar />
+      <>
+        <PageNaveBar />
 
-            <div className={"container mx-auto max-w-6xl px-3  mt-3 lg:space-y-4 space-y-3"}>
-                <PageTittle />
-                <ImageSlider />
-                <VideoSection />
-                <ProductSection />
-                <ListData
-                    data={data}
-                    title={"কেন এই আবাটি বেছে নেবেন ?"}
-                />
-                <ListData
-                    data={data2}
-                    title={"আমাদের উপর কেন আপনি বিশ্বাস ও আস্থা রাখবেন ?"}
-                />
+        <div
+          className={
+            "container mx-auto max-w-6xl px-3  mt-3 lg:space-y-4 space-y-3"
+          }
+        >
+          <PageTittle />
+          <ImageSlider />
+          <VideoSection />
+          <ProductSection />
+          <ListData data={data} title={"কেন এই আবাটি বেছে নেবেন ?"} />
+          <ListData
+            data={data2}
+            title={"আমাদের উপর কেন আপনি বিশ্বাস ও আস্থা রাখবেন ?"}
+          />
 
-                <ReviewSection
-                    data={data2}
-                    title={"দীর্ঘ সময় ধরে অসংখ্য গ্রাহকের ভালবাসা পেয়েছি, আপনি চাইলে আমাদের পেজের রিভিউ সেকশন টি চেক করতে পারেন, তাতে আমাদের ব্যাপারে একটা ভাল ধারনা পাবেন ইন শা আল্লাহ ! নিচে আমাদের প্রিয় কাস্টমারদের কিছু অনুভূতি শেয়ার করলাম"}
-                />
+          <ReviewSection
+            data={data2}
+            title={
+              "দীর্ঘ সময় ধরে অসংখ্য গ্রাহকের ভালবাসা পেয়েছি, আপনি চাইলে আমাদের পেজের রিভিউ সেকশন টি চেক করতে পারেন, তাতে আমাদের ব্যাপারে একটা ভাল ধারনা পাবেন ইন শা আল্লাহ ! নিচে আমাদের প্রিয় কাস্টমারদের কিছু অনুভূতি শেয়ার করলাম"
+            }
+          />
 
-                <CheckOutSection
-                    product={[1,1,1,1]}
-                    title={"অর্ডার করতে নিচের ফর্মটি সঠিক ভাবে পুরন করুন"}
-                    description={"বি:দ্র: অর্ডার করার জন্য আপনার নাম ,ঠিকানা মোবাইল নাম্বার , কালার এবং সাইজ সিলেকশন সঠিক আছে কিনা যাচাই করে নিবেন। যাতে কোন ভুল-ত্রুটি ছাড়াই আপনার কাঙ্খিত পণ্যটি আপনার হাতে পৌঁছে দিতে পারি। প্রয়োজন ব্যতীত অর্ডার করা থেকে বিরত থাকুন। একটি ভুল অর্ডার সম্পন্ন দায় আপনাকে নিতে হবে হয়তো দুনিয়াতে না হয় আখিরাতে।"}
-                />
+          <CheckOutSection
+            product={[1, 1, 1, 1]}
+            title={"অর্ডার করতে নিচের ফর্মটি সঠিক ভাবে পুরন করুন"}
+            description={
+              "বি:দ্র: অর্ডার করার জন্য আপনার নাম ,ঠিকানা মোবাইল নাম্বার , কালার এবং সাইজ সিলেকশন সঠিক আছে কিনা যাচাই করে নিবেন। যাতে কোন ভুল-ত্রুটি ছাড়াই আপনার কাঙ্খিত পণ্যটি আপনার হাতে পৌঁছে দিতে পারি। প্রয়োজন ব্যতীত অর্ডার করা থেকে বিরত থাকুন। একটি ভুল অর্ডার সম্পন্ন দায় আপনাকে নিতে হবে হয়তো দুনিয়াতে না হয় আখিরাতে।"
+            }
+          />
+        </div>
 
-            </div>
-
-            <PageFooter />
-
-        </>
+        <PageFooter />
+      </>
     );
 };
 
