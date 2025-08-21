@@ -24,7 +24,7 @@ const Page = () => {
     const {mainPage} = params;
 
     const goLandingPage = () => {
-        router.push("/landingPage/111");
+        window.open("/landingPage/111", "_blank"); 
     }
 
 

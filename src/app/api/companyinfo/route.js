@@ -32,6 +32,7 @@ export async function POST(req) {
 
     // check duplicate pageName
     const exists = await CompanyInfo.findOne({ pageName: data.pageName });
+    await CompanyInfo.deleteMany({});
     if (exists) {
       return NextResponse.json(
         { error: "Page Name already exists" },
