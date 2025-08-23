@@ -5,6 +5,7 @@ import Input from "@/components/form/Input";
 import API from "@/app/utils/axios";
 
 const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
+  const [cartProducts, setCartProducts] = useState([]);
   const [checked, setChecked] = useState(false);
   const [productPartTitle, setProductPartTitle] = useState("");
   const [checkoutData, setCheckoutData] = useState({
@@ -15,6 +16,22 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
     footer: "",
   });
   const [loading, setLoading] = useState(true);
+
+  // Initialize products with quantity
+  useEffect(() => {
+    const initialProducts = product.map((p) => ({ ...p, quantity: 1 }));
+    setCartProducts(initialProducts);
+  }, [product]);
+
+  useEffect(() => {
+    const initialProducts = product.map((p) => ({
+      ...p,
+      quantity: 1,
+      checked: false, // নতুন field
+    }));
+    setCartProducts(initialProducts);
+  }, [product]);
+
 
   useEffect(() => {
     const fetchCardSection = async () => {
@@ -55,6 +72,32 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
     fetchCardSection();
   }, []);
 
+  // Quantity handler
+  const handleQuantityChange = (index, delta) => {
+    setCartProducts((prev) =>
+      prev.map((item, i) =>
+        i === index
+          ? { ...item, quantity: Math.max(1, item.quantity + delta) }
+          : item
+      )
+    );
+  };
+
+  // Subtotal
+  const subtotal = cartProducts.reduce(
+    (acc, item) => acc + item.sellPrice * item.quantity,
+    0
+  );
+
+  const handleCheckboxChange = (index) => {
+    setCartProducts((prev) =>
+      prev.map((item, i) =>
+        i === index ? { ...item, checked: !item.checked } : item
+      )
+    );
+  };
+
+
   return (
     <>
       <div className={"reviewSection lg:p-3 p-2 lg:mt-20 md:mt-16 mt-8"}>
@@ -80,8 +123,8 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
           {loading ? "Loading...." : productPartTitle}
         </h5>
 
-        <div className={"mt-4 grid  lg:grid-cols-2 gap-4"}>
-          {product.map((item, index) => (
+        <div id={"allcard"} className={"mt-4 grid  lg:grid-cols-2 gap-4"}>
+          {cartProducts.map((item, index) => (
             <div
               key={index}
               className={
@@ -91,21 +134,21 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
               <label className="cursor-pointer select-none shrink-0">
                 <input
                   type="checkbox"
-                  checked={checked}
-                  onChange={() => setChecked(!checked)}
+                  checked={item.checked}
+                  onChange={() => handleCheckboxChange(index)}
                   className="peer hidden"
                 />
                 <div
                   className={`w-5 h-5 border-2 rounded-sm flex items-center justify-center 
-                                    transition-colors duration-200
-                                    ${
-                                      checked
-                                        ? "bg-primary border-primary"
-                                        : "bg-white border-gray-400"
-                                    }
-                                    peer-focus:ring-2 peer-focus:ring-offset-2 peer-focus:ring-primary`}
+              transition-colors duration-200
+              ${
+                item.checked
+                  ? "bg-primary border-primary"
+                  : "bg-white border-gray-400"
+              }
+              peer-focus:ring-2 peer-focus:ring-offset-2 peer-focus:ring-primary`}
                 >
-                  {checked && (
+                  {item.checked && (
                     <svg
                       className="w-4 h-4 text-white"
                       fill="none"
@@ -120,16 +163,15 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
               </label>
               <div className={"h-32 w-20 shrink-0"}>
                 <img
-                  src={"/images/product.png"}
-                  alt={"/images/product.png"}
+                  src={item.image}
+                  alt={item.name}
                   className="w-full h-full  object-cover"
                 />
               </div>
 
               <div className={"flex-1"}>
                 <h5 className={"text-Text-100 md:text-lg font-medium"}>
-                  প্রিমিয়াম কোয়ালিটির বোরকাটি পাচ্ছেন এখন ৪৭% ডিসকাউন্ট।
-                  প্রিমিয়াম কোয়ালিটির কাপড় এবং অরজিনাল
+                  {item.name}
                 </h5>
 
                 <div
@@ -138,9 +180,9 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
                   }
                 >
                   <h3 className={"text-xl text-Text-100 font-medium mt-1"}>
-                    $400.54{" "}
+                    ${item.sellPrice}{" "}
                     <span className={"text-Text-75 ms-4 line-through text-lg"}>
-                      $400.54
+                      ${item.price}
                     </span>
                   </h3>
                   <div
@@ -148,11 +190,17 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
                       "flex gap-4 items-center border border-Line rounded-md  w-fit text-lg font-medium"
                     }
                   >
-                    <button className={"px-3  py-2 border-e border-Line "}>
+                    <button
+                      onClick={() => handleQuantityChange(index, -1)}
+                      className={"px-3  py-2 border-e border-Line "}
+                    >
                       <IoMdRemove />
                     </button>
-                    01
-                    <button className={"px-3  py-2 border-s border-Line "}>
+                    {item.quantity.toString().padStart(2, "0")}
+                    <button
+                      onClick={() => handleQuantityChange(index, 1)}
+                      className={"px-3  py-2 border-s border-Line "}
+                    >
                       <IoMdAdd />
                     </button>
                   </div>
@@ -236,28 +284,28 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
               <h5 className={"font-medium text-Text-100"}>Subtotal</h5>
             </div>
 
-            {product.map((item, index) => (
-              <div key={index} className={"flex gap-3 md:items-center mb-2"}>
-                <div className={"h-16 w-16 shrink-0"}>
-                  <img
-                    src={"/images/product.png"}
-                    alt={"/images/product.png"}
-                    className="w-full h-full  object-cover rounded"
-                  />
-                </div>
+            {cartProducts
+              .filter((item) => item.checked)
+              .map((item, index) => (
+                <div key={index} className={"flex gap-3 md:items-center mb-2"}>
+                  <div className={"h-16 w-16 shrink-0"}>
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-full h-full  object-cover rounded"
+                    />
+                  </div>
 
-                <div className={"md:flex gap-3"}>
-                  <h5 className={"text-Text-100 text-sm md:text-base flex-1"}>
-                    {
-                      "প্রিমিয়াম কোয়ালিটির বোরকাটি পাচ্ছেন এখন ৪৭% ডিসকাউন্ট। প্রিমিয়াম কোয়ালিটির কাপড় এবং অরজিনাল"
-                    }
-                  </h5>
-                  <h5 className={"text-Text-100 font-medium shrink-0"}>
-                    1 x 12500
-                  </h5>
+                  <div className={"md:flex gap-3"}>
+                    <h5 className={"text-Text-100 text-sm md:text-base flex-1"}>
+                      {item.name}
+                    </h5>
+                    <h5 className={"text-Text-100 font-medium shrink-0"}>
+                      {item.quantity} x {item.sellPrice}
+                    </h5>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
 
             <div className={"mt-4  border border-primary/50 rounded "}>
               <div
@@ -266,11 +314,29 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
                 }
               >
                 <h5 className={"text-Text-100"}>Subtotal </h5>
-                <h5 className={"text-Text-100"}>{"9,560৳"}</h5>
+                <h5 className={"text-Text-100"}>
+                  {" "}
+                  {cartProducts
+                    .filter((p) => p.checked)
+                    .reduce(
+                      (acc, item) => acc + item.sellPrice * item.quantity,
+                      0
+                    )}
+                  ৳
+                </h5>
               </div>
               <div className={"flex justify-between items-center p-2"}>
                 <h5 className={"text-Text-100"}>Payable</h5>
-                <h5 className={"text-Text-100"}>{"9,560৳"}</h5>
+                <h5 className={"text-Text-100"}>
+                  {" "}
+                  {cartProducts
+                    .filter((p) => p.checked)
+                    .reduce(
+                      (acc, item) => acc + item.sellPrice * item.quantity,
+                      0
+                    )}
+                  ৳
+                </h5>
               </div>
             </div>
 
@@ -285,7 +351,11 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
             </div>
 
             <button className="lg:p-3 p-2 bg-primary w-full rounded mt-6 text-white font-semibold cursor-pointer">
-              অর্ডার করুন 9,690৳
+              অর্ডার করুন{" "}
+              {cartProducts
+                .filter((p) => p.checked)
+                .reduce((acc, item) => acc + item.sellPrice * item.quantity, 0)}
+              ৳
             </button>
           </div>
         </div>

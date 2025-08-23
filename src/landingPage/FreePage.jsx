@@ -11,11 +11,19 @@ import ReviewSection from "@/components/landingPage/ReviewSection";
 import CheckOutSection from "@/components/landingPage/CheckOutSection";
 import PageFooter from "@/components/landingPage/PageFooter";
 import API from "@/app/utils/axios";
+import toast from "react-hot-toast";
 
 const FreePage = () => {
   const [title, setTitle] = useState("");
+  const [reviewTitle, setReviewTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [cartProducts, setCartProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const handleAddToCart = (product) => {
+    setCartProducts((prev) => [...prev, product]);
+    toast.success(`Added to cart! ${product.name}`);
+  };
 
   useEffect(() => {
     const fetchCardSection = async () => {
@@ -33,6 +41,18 @@ const FreePage = () => {
       }
     };
 
+    const fetchMajorSection = async () => {
+      try {
+        const res = await API.get("/configurepage/majorsection");
+        setReviewTitle(res.data.reviewTitle);
+      } catch (error) {
+        console.error("Failed to fetch footer data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMajorSection();
     fetchCardSection();
   }, []);
 
@@ -69,7 +89,7 @@ const FreePage = () => {
         <PageTittle />
         <ImageSlider />
         <VideoSection />
-        <ProductSection />
+        <ProductSection addToCart={handleAddToCart} />
         <ListData data={data} title={"কেন এই আবাটি বেছে নেবেন ?"} />
         <ListData
           data={data2}
@@ -78,15 +98,13 @@ const FreePage = () => {
 
         <ReviewSection
           data={data2}
-          title={
-            "দীর্ঘ সময় ধরে অসংখ্য গ্রাহকের ভালবাসা পেয়েছি, আপনি চাইলে আমাদের পেজের রিভিউ সেকশন টি চেক করতে পারেন, তাতে আমাদের ব্যাপারে একটা ভাল ধারনা পাবেন ইন শা আল্লাহ ! নিচে আমাদের প্রিয় কাস্টমারদের কিছু অনুভূতি শেয়ার করলাম"
-          }
+          title={loading ? "Loading..." : reviewTitle}
         />
 
         <CheckOutSection
-          product={[1, 1, 1, 1]}
           title={loading ? "Loading..." : title}
           description={loading ? "Loading..." : description}
+          product={cartProducts}
         />
       </div>
 
