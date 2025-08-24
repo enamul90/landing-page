@@ -8,17 +8,19 @@ import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import API from "@/app/utils/axios";
 import toast from "react-hot-toast";
+import EditProduct from "../../modal/EditProduct";
 
 const ProductTable = ({ filter, setSelectedIds }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await API.get("/products"); 
-        console.log("Fetched products:", res.data);
+        const res = await API.get("/products");
         setProducts(res.data);
       } catch (err) {
         console.error("Failed to fetch products:", err);
@@ -34,7 +36,6 @@ const ProductTable = ({ filter, setSelectedIds }) => {
   };
 
   const handleDelete = async (id) => {
-    // Show a toast confirmation
     const confirmDelete = await new Promise((resolve) => {
       toast(
         (t) => (
@@ -68,7 +69,6 @@ const ProductTable = ({ filter, setSelectedIds }) => {
 
     if (!confirmDelete) return;
 
-    // Delete API call
     try {
       await API.delete("/products", { data: { id } });
       setProducts((prev) => prev.filter((p) => p._id !== id));
@@ -84,6 +84,11 @@ const ProductTable = ({ filter, setSelectedIds }) => {
       if (checked) return [...prev, id];
       else return prev.filter((pid) => pid !== id);
     });
+  };
+
+  const handleEdit = (product) => {
+    setSelectedProduct(product);
+    setIsEditOpen(true);
   };
 
   const filteredProducts = products
@@ -171,12 +176,12 @@ const ProductTable = ({ filter, setSelectedIds }) => {
                   </td>
                   <td className="p-2 space-x-2">
                     <div className="flex gap-3">
-                      <Link
-                        href={`/products/edit/${product._id}`}
+                      <button
+                        onClick={() => handleEdit(product)}
                         className="text-primary hover:text-secondary"
                       >
                         <FiEdit className="w-5 h-5" />
-                      </Link>
+                      </button>
                       <button
                         onClick={() => handleDelete(product._id)}
                         className="text-secondary cursor-pointer"
@@ -222,13 +227,16 @@ const ProductTable = ({ filter, setSelectedIds }) => {
               <div className="flex justify-between items-center gap-1">
                 <h3 className="text-lg font-semibold">{product.name}</h3>
                 <div className="flex space-x-2">
-                  <Link
-                    href={`/products/edit/${product._id}`}
+                  <button
+                    onClick={() => handleEdit(product)}
                     className="text-primary hover:text-secondary"
                   >
                     <FiEdit className="w-5 h-5" />
-                  </Link>
-                  <button className="text-red-500 hover:text-red-700">
+                  </button>
+                  <button
+                    onClick={() => handleDelete(product._id)}
+                    className="text-red-500 hover:text-red-700"
+                  >
                     <FiTrash2 className="w-5 h-5" />
                   </button>
                 </div>
@@ -241,6 +249,19 @@ const ProductTable = ({ filter, setSelectedIds }) => {
           <div className="text-center text-text-50">No products found</div>
         )}
       </div>
+
+      {/* Edit Product Popup */}
+      {isEditOpen && selectedProduct && (
+        <EditProduct
+          product={selectedProduct}
+          Close={setIsEditOpen}
+          onUpdated={(updated) => {
+            setProducts((prev) =>
+              prev.map((p) => (p._id === updated._id ? updated : p))
+            );
+          }}
+        />
+      )}
     </>
   );
 };
