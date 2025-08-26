@@ -1,142 +1,58 @@
-'use client'
-import React from 'react';
+"use client";
+import React, { useEffect, useState } from "react";
 import OrderTable from "@/components/table/OrderTable";
-
-
-import { useParams } from 'next/navigation';
+import { useParams } from "next/navigation";
+import API from "@/app/utils/axios";
 
 const OrderPage = () => {
-    const params = useParams();
-    const {subPage} = params;
+  const params = useParams();
+  const { subPage } = params;
 
-    return (
-        <div div className="lg:p-6 p-3 bg-gray-100 min-h-screen">
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-            {
-                subPage === "new-order" &&  (
-                    <>
-                        <div className="gap-4  mb-6">
-                            <div className={"h-full flex items-center justify-between"}>
-                                <h2 className="lg:text-xl text-lg font-bold uppercase text-Text-100">New Order</h2>
-                                <h2 className="lg:text-lg font-semibold  text-secondary">
-                                    20 Orders
-                                </h2>
-                            </div>
-                        </div>
-                        <OrderTable />
-                    </>
-                )
-            }
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        setLoading(true);
+        const res = await API.get(`/orders`);
+        setOrders(res.data || []);
+      } catch (error) {
+        console.error("Failed to fetch orders:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-            {
-                subPage === "hold-order" &&  (
-                    <>
-                        <div className="gap-4  mb-6">
-                            <div className={"h-full flex items-center justify-between"}>
-                                <h2 className="lg:text-xl text-lg font-bold uppercase text-Text-100">Hold Order</h2>
-                                <h2 className="lg:text-lg font-semibold  text-secondary">
-                                    20 Orders
-                                </h2>
-                            </div>
-                        </div>
-                        <OrderTable />
-                    </>
-                )
-            }
+    fetchOrders();
+  }, [subPage]);
 
-            {
-                subPage === "incomplete-order" &&  (
-                    <>
-                        <div className="gap-4  mb-6">
-                            <div className={"h-full flex items-center justify-between"}>
-                                <h2 className="lg:text-xl text-lg font-bold uppercase text-Text-100">
-                                    Incomplete Order
-                                </h2>
-                                <h2 className="lg:text-lg font-semibold  text-secondary">
-                                    20 Orders
-                                </h2>
-                            </div>
-                        </div>
-                        <OrderTable />
-                    </>
-                )
-            }
+  const titles = {
+    "new-order": "New Order",
+    "hold-order": "Hold Order",
+    "incomplete-order": "Incomplete Order",
+    "ongoing-order": "Ongoing Order",
+    "complete-order": "Complete Order",
+    "cancel-order": "Cancel Order",
+    "delivery-failed": "Delivery Failed",
+  };
 
-            {
-                subPage === "ongoing-order" &&  (
-                    <>
-                        <div className="gap-4  mb-6">
-                            <div className={"h-full flex items-center justify-between"}>
-                                <h2 className="lg:text-xl text-lg font-bold uppercase text-Text-100">
-                                    Ongoing Order
-                                </h2>
-                                <h2 className="lg:text-lg font-semibold  text-secondary">
-                                    20 Orders
-                                </h2>
-                            </div>
-                        </div>
-                        <OrderTable />
-                    </>
-                )
-            }
-
-            {
-                subPage === "complete-order" &&  (
-                    <>
-                        <div className="gap-4  mb-6">
-                            <div className={"h-full flex items-center justify-between"}>
-                                <h2 className="lg:text-xl text-lg font-bold uppercase text-Text-100">
-                                    Complete Order
-                                </h2>
-                                <h2 className="lg:text-lg font-semibold  text-secondary">
-                                    20 Orders
-                                </h2>
-                            </div>
-                        </div>
-                        <OrderTable />
-                    </>
-                )
-            }
-
-            {
-                subPage === "cancel-order" &&  (
-                    <>
-                        <div className="gap-4  mb-6">
-                            <div className={"h-full flex items-center justify-between"}>
-                                <h2 className="lg:text-xl text-lg font-bold uppercase text-Text-100">
-                                    Cancel Order
-                                </h2>
-                                <h2 className="lg:text-lg font-semibold  text-secondary">
-                                    20 Orders
-                                </h2>
-                            </div>
-                        </div>
-                        <OrderTable />
-                    </>
-                )
-            }
-
-            {
-                subPage === "delivery-failed" &&  (
-                    <>
-                        <div className="gap-4  mb-6">
-                            <div className={"h-full flex items-center justify-between"}>
-                                <h2 className="lg:text-xl text-lg font-bold uppercase text-Text-100">
-                                    Delivery Failed
-                                </h2>
-                                <h2 className="lg:text-lg font-semibold  text-secondary">
-                                    20 Orders
-                                </h2>
-                            </div>
-                        </div>
-                        <OrderTable />
-                    </>
-                )
-            }
-
-
+  return (
+    <div className="lg:p-6 p-3 bg-gray-100 min-h-screen">
+      <div className="gap-4 mb-6">
+        <div className="h-full flex items-center justify-between">
+          <h2 className="lg:text-xl text-lg font-bold uppercase text-Text-100">
+            {titles[subPage] || "Orders"}
+          </h2>
+          <h2 className="lg:text-lg font-semibold text-secondary">
+            {orders.length} Orders
+          </h2>
         </div>
-    );
+      </div>
+
+      <OrderTable orders={orders} loading={loading} />
+    </div>
+  );
 };
 
 export default OrderPage;

@@ -6,7 +6,6 @@ import API from "@/app/utils/axios";
 
 const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
   const [cartProducts, setCartProducts] = useState([]);
-  const [checked, setChecked] = useState(false);
   const [productPartTitle, setProductPartTitle] = useState("");
   const [checkoutData, setCheckoutData] = useState({
     title: "",
@@ -17,21 +16,25 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
   });
   const [loading, setLoading] = useState(true);
 
-  // Initialize products with quantity
-  useEffect(() => {
-    const initialProducts = product.map((p) => ({ ...p, quantity: 1 }));
-    setCartProducts(initialProducts);
-  }, [product]);
+  // ✅ new states
+  const [formData, setFormData] = useState({
+    name: "",
+    address: "",
+    phone: "",
+    size: "",
+    color: "",
+    shippingCost: "",
+  });
 
+  // Initialize products with quantity
   useEffect(() => {
     const initialProducts = product.map((p) => ({
       ...p,
       quantity: 1,
-      checked: false, // নতুন field
+      checked: false,
     }));
     setCartProducts(initialProducts);
   }, [product]);
-
 
   useEffect(() => {
     const fetchCardSection = async () => {
@@ -83,12 +86,7 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
     );
   };
 
-  // Subtotal
-  const subtotal = cartProducts.reduce(
-    (acc, item) => acc + item.sellPrice * item.quantity,
-    0
-  );
-
+  // Checkbox handler
   const handleCheckboxChange = (index) => {
     setCartProducts((prev) =>
       prev.map((item, i) =>
@@ -97,6 +95,55 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
     );
   };
 
+  // ✅ handle input change
+  const handleChange = (key, value) => {
+    setFormData({ ...formData, [key]: value });
+  };
+
+  // ✅ handle submit
+  const handleSubmit = async () => {
+    const selectedProducts = cartProducts.filter((p) => p.checked);
+
+    if (!formData.name || !formData.phone || !formData.address) {
+      alert("সব তথ্য পূরণ করুন");
+      return;
+    }
+
+    if (selectedProducts.length === 0) {
+      alert("কমপক্ষে একটি product select করুন");
+      return;
+    }
+
+    try {
+      const payload = {
+        ...formData,
+        products: selectedProducts,
+        totalAmount:
+          selectedProducts.reduce(
+            (acc, item) => acc + item.sellPrice * item.quantity,
+            0
+          ),
+        status: "new",
+      };
+
+      const res = await API.post("/orders", payload);
+      if (res.status === 201 || res.status === 200) {
+        alert("অর্ডার সফলভাবে হয়েছে ✅");
+        setFormData({
+          name: "",
+          address: "",
+          phone: "",
+          size: "",
+          color: "",
+          shippingCost: "",
+        });
+        setCartProducts((prev) => prev.map((p) => ({ ...p, checked: false })));
+      }
+    } catch (error) {
+      console.error("Failed to place order:", error);
+      alert("অর্ডার ব্যর্থ হয়েছে ❌");
+    }
+  };
 
   return (
     <>
@@ -223,7 +270,10 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
                 <div className={"flex  gap-3"}>
                   <input
                     type="radio"
+                    name="size"
                     value={size}
+                    checked={formData.size === size}
+                    onChange={() => handleChange("size", size)}
                     className="form-radio text-primary focus:ring-primary "
                   />
                   <span className=" text-Text-100 font-semibold">{size}</span>
@@ -240,7 +290,10 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
                 <div className={"flex  gap-3"}>
                   <input
                     type="radio"
+                    name="color"
                     value={color}
+                    checked={formData.color === color}
+                    onChange={() => handleChange("color", color)}
                     className="form-radio text-primary focus:ring-primary "
                   />
                   <span className=" text-Text-100 font-semibold">{color}</span>
@@ -249,13 +302,28 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
             </div>
 
             <div className={"mt-6  space-y-4"}>
-              <Input LabelName={"আপনার নামঃ"} Placeholder={"তোমার নাম"} />
+              <Input
+                LabelName={"আপনার নামঃ"}
+                Placeholder={"তোমার নাম"}
+                name="name"
+                value={formData.name}
+                onChange={(val) => handleChange("name", val)}
+              />
               <Input
                 LabelName={"সম্পুর্ন ঠিকানাঃ"}
                 Placeholder={"বাসার নং, রোড নং, থানা, জেলা"}
+                name="address"
+                value={formData.address}
+                onChange={(val) => handleChange("address", val)}
               />
 
-              <Input LabelName={"ফোন নাম্বারঃ"} Placeholder={"01722924089"} />
+              <Input
+                LabelName={"ফোন নাম্বারঃ"}
+                Placeholder={"01722924089"}
+                name="phone"
+                value={formData.phone}
+                onChange={(val) => handleChange("phone", val)}
+              />
             </div>
 
             <h3 className={"font-semibold text-Text-100 mt-6"}>Shipping</h3>
@@ -265,8 +333,10 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
                 <div key={index} className={"flex  gap-3"}>
                   <input
                     type="radio"
-                    name={shippingCost}
+                    name="shippingCost"
                     value={shippingCost}
+                    checked={formData.shippingCost === shippingCost}
+                    onChange={() => handleChange("shippingCost", shippingCost)}
                     className="form-radio text-primary focus:ring-primary "
                   />
                   <span className=" text-Text-100 font-semibold">
@@ -350,7 +420,10 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
               </h4>
             </div>
 
-            <button className="lg:p-3 p-2 bg-primary w-full rounded mt-6 text-white font-semibold cursor-pointer">
+            <button
+              onClick={handleSubmit}
+              className="lg:p-3 p-2 bg-primary w-full rounded mt-6 text-white font-semibold cursor-pointer"
+            >
               অর্ডার করুন{" "}
               {cartProducts
                 .filter((p) => p.checked)
