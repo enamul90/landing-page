@@ -5,9 +5,9 @@ import Order from "@/app/models/Order";
 
 export async function POST(req) {
   await connectDB();
-  // const user = getAuthUser();
+  const user = getAuthUser();
 
-  // if (!user) return NextResponse.json({ error: "Unauthorized" });
+  if (!user) return NextResponse.json({ error: "Unauthorized" });
 
   const body = await req.json();
 
@@ -19,9 +19,9 @@ export async function POST(req) {
 
 export async function GET(req) {
   await connectDB();
-  // const user = getAuthUser();
+  const user = getAuthUser();
 
-  // if (!user) return NextResponse.json({ error: "Unauthorized" });
+  if (!user) return NextResponse.json({ error: "Unauthorized" });
 
   const { searchParams } = new URL(req.url);
   const status = searchParams.get("status");
