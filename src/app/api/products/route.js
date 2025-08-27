@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/app/lib/db";
+import { getAuthUser } from "@/app/lib/auth";
 import Product from "@/app/models/Product";
 
 // Connect to DB

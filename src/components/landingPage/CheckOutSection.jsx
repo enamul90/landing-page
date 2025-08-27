@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { IoMdAdd, IoMdRemove } from "react-icons/io";
 import Input from "@/components/form/Input";
 import API from "@/app/utils/axios";
+import toast from "react-hot-toast";
 
 const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
   const [cartProducts, setCartProducts] = useState([]);
@@ -25,7 +26,7 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
     color: "",
     shippingCost: "",
   });
-
+  console.log("Form Data:", formData);
   // Initialize products with quantity
   useEffect(() => {
     const initialProducts = product.map((p) => ({
@@ -97,7 +98,11 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
 
   // ✅ handle input change
   const handleChange = (key, value) => {
-    setFormData({ ...formData, [key]: value });
+    if (key === "shippingCost") {
+      setFormData({ ...formData, [key]: Number(value) });
+    } else {
+      setFormData({ ...formData, [key]: value.toString() });
+    }
   };
 
   // ✅ handle submit
@@ -105,12 +110,12 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
     const selectedProducts = cartProducts.filter((p) => p.checked);
 
     if (!formData.name || !formData.phone || !formData.address) {
-      alert("সব তথ্য পূরণ করুন");
+      toast("সব তথ্য পূরণ করুন");
       return;
     }
 
     if (selectedProducts.length === 0) {
-      alert("কমপক্ষে একটি product select করুন");
+      toast("কমপক্ষে একটি product select করুন");
       return;
     }
 
@@ -122,13 +127,14 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
           selectedProducts.reduce(
             (acc, item) => acc + item.sellPrice * item.quantity,
             0
-          ),
+          ) + (formData.shippingCost || 0),
         status: "new",
       };
 
       const res = await API.post("/orders", payload);
+      console.log(res)
       if (res.status === 201 || res.status === 200) {
-        alert("অর্ডার সফলভাবে হয়েছে ✅");
+        toast.success("অর্ডার সফলভাবে হয়েছে ✅");
         setFormData({
           name: "",
           address: "",
@@ -141,7 +147,7 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
       }
     } catch (error) {
       console.error("Failed to place order:", error);
-      alert("অর্ডার ব্যর্থ হয়েছে ❌");
+      toast.error("অর্ডার ব্যর্থ হয়েছে ❌");
     }
   };
 
@@ -293,7 +299,7 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
                     name="color"
                     value={color}
                     checked={formData.color === color}
-                    onChange={() => handleChange("color", color)}
+                    onChange={(e) => handleChange("color", e.target.value)}
                     className="form-radio text-primary focus:ring-primary "
                   />
                   <span className=" text-Text-100 font-semibold">{color}</span>
@@ -329,18 +335,18 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
             <h3 className={"font-semibold text-Text-100 mt-6"}>Shipping</h3>
 
             <div className="mt-2 space-y-2">
-              {checkoutData.shippingCosts.map((shippingCost, index) => (
-                <div key={index} className={"flex  gap-3"}>
+              {checkoutData.shippingCosts.map((shipping, index) => (
+                <div key={index} className="flex gap-3 items-center">
                   <input
                     type="radio"
                     name="shippingCost"
-                    value={shippingCost}
-                    checked={formData.shippingCost === shippingCost}
-                    onChange={() => handleChange("shippingCost", shippingCost)}
-                    className="form-radio text-primary focus:ring-primary "
+                    value={shipping.cost}
+                    checked={formData.shippingCost === shipping.cost}
+                    onChange={() => handleChange("shippingCost", shipping.cost)}
+                    className="form-radio text-primary focus:ring-primary"
                   />
-                  <span className=" text-Text-100 font-semibold">
-                    {shippingCost}
+                  <span className="text-Text-100 font-semibold">
+                    {shipping.location} - {shipping.cost}৳
                   </span>
                 </div>
               ))}
@@ -404,7 +410,7 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
                     .reduce(
                       (acc, item) => acc + item.sellPrice * item.quantity,
                       0
-                    )}
+                    ) + (formData.shippingCost || 0)}
                   ৳
                 </h5>
               </div>
@@ -427,7 +433,10 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
               অর্ডার করুন{" "}
               {cartProducts
                 .filter((p) => p.checked)
-                .reduce((acc, item) => acc + item.sellPrice * item.quantity, 0)}
+                .reduce(
+                  (acc, item) => acc + item.sellPrice * item.quantity,
+                  0
+                ) + (formData.shippingCost || 0)}
               ৳
             </button>
           </div>

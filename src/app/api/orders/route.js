@@ -1,10 +1,14 @@
 import { connectDB } from "@/app/lib/db";
 import { NextResponse } from "next/server";
+import { getAuthUser } from "@/app/lib/auth";
 import Order from "@/app/models/Order";
-
 
 export async function POST(req) {
   await connectDB();
+  // const user = getAuthUser();
+
+  // if (!user) return NextResponse.json({ error: "Unauthorized" });
+
   const body = await req.json();
 
   const order = new Order(body);
@@ -15,6 +19,10 @@ export async function POST(req) {
 
 export async function GET(req) {
   await connectDB();
+  // const user = getAuthUser();
+
+  // if (!user) return NextResponse.json({ error: "Unauthorized" });
+
   const { searchParams } = new URL(req.url);
   const status = searchParams.get("status");
 

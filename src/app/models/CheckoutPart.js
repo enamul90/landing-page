@@ -5,11 +5,16 @@ const CheckoutPartSchema = new Schema(
     title: { type: String, required: true },
     sizes: [{ type: String }],
     colors: [{ type: String }],
-    shippingCosts: [{ type: String }],
+    shippingCosts: [
+      {
+        location: { type: String, required: true },
+        cost: { type: Number, required: true },
+      },
+    ],
     footer: { type: String },
   },
   { timestamps: true }
 );
 
-export default mongoose.models.CheckoutPart ||
-  mongoose.model("CheckoutPart", CheckoutPartSchema);
+export default mongoose.models.Checkoutpart ||
+  mongoose.model("Checkoutpart", CheckoutPartSchema);
