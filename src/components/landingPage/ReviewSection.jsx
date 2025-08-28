@@ -15,7 +15,7 @@ const ReviewSection = ({ title = "" }) => {
     try {
       setLoading(true);
       const res = await API.get("/review");
-      console.log(res)
+      console.log(res);
       const reviews = Array.isArray(res.data) ? res.data : [];
       setImages(reviews);
     } catch (error) {
@@ -38,7 +38,27 @@ const ReviewSection = ({ title = "" }) => {
       </div>
 
       {loading ? (
-        <p>Loading reviews...</p>
+        <Swiper
+          modules={[Navigation, Pagination, Autoplay]}
+          spaceBetween={25}
+          slidesPerView={3}
+          navigation
+          pagination={{ clickable: true }}
+          loop={true}
+          className="rounded overflow-hidden"
+          breakpoints={{
+            320: { slidesPerView: 1, spaceBetween: 10 },
+            640: { slidesPerView: 1, spaceBetween: 12 },
+            768: { slidesPerView: 2, spaceBetween: 15 },
+            1024: { slidesPerView: 3, spaceBetween: 15 },
+          }}
+        >
+          {Array.from({ length: 3 }).map((_, i) => (
+            <SwiperSlide key={i}>
+              <div className="w-full h-[380px] md:h-[500px] bg-gray-300 animate-pulse rounded-lg" />
+            </SwiperSlide>
+          ))}
+        </Swiper>
       ) : images.length === 0 ? (
         <p>No reviews found.</p>
       ) : (

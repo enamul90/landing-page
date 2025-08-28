@@ -89,14 +89,16 @@ export default function ProductList() {
             <option value="latest">Latest Project</option>
             <option value="lowStock">Low Stock</option>
           </select>
-          <button
-            onClick={handleDeleteSelected}
-            className=" col-span-1 flex text-xs lg:text-base items-center justify-center lg:px-4 py-2 px-3 w-full
+          {selectedIds.length > 0 && (
+            <button
+              onClick={handleDeleteSelected}
+              className=" col-span-1 flex text-xs lg:text-base items-center justify-center lg:px-4 py-2 px-3 w-full
                           bg-black text-text-100 rounded-lg text-white cursor-pointer "
-          >
-            <FiTrash2 className="w-5 h-5 mr-2" />
-            Delete
-          </button>
+            >
+              <FiTrash2 className="w-5 h-5 mr-2" />
+              Delete
+            </button>
+          )}
           <button
             onClick={addProduct}
             className=" flex text-xs lg:text-base items-center justify-center  lg:px-4 py-2 px-3  w-full  bg-secondary

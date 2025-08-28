@@ -20,12 +20,35 @@ const ConfigureCard = () => {
     setCardSection({ ...cardSection, [key]: value });
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      setCardLoading(true);
+      try {
+        const res = await API.get("/cardsection");
+        if (res.data && res.data.length > 0) {
+          const company = res.data[0];
+          setCardSection({
+            title: company.title || "",
+            description: company.description || "",
+            productPartTitle: company.productPartTitle || "",
+          });
+        }
+      } catch (err) {
+        console.error(err.response?.data || err.message);
+        toast.error("Error fetching data!");
+      } finally {
+        setCardLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
   const handleCardSubmit = async () => {
     setCardLoading(true);
     try {
       const res = await API.post("/cardsection", cardSection);
       toast.success("Card Section saved successfully!");
-      setCardSection({ title: "", description: "", productPartTitle: "" });
+      // setCardSection({ title: "", description: "", productPartTitle: "" });
     } catch (err) {
       toast.error(err.response?.data?.error || "Error saving card section!");
     } finally {
@@ -42,63 +65,49 @@ const ConfigureCard = () => {
     footer: "",
   });
   const [checkoutLoading, setCheckoutLoading] = useState(false);
-  const [checkoutList, setCheckoutList] = useState([]);
-  const [editId, setEditId] = useState(null); // MongoDB document _id
 
   const handleCheckoutChange = (key, value) => {
     setCheckout({ ...checkout, [key]: value });
   };
 
-  // Fetch saved checkout parts from MongoDB
-  const fetchCheckoutParts = async () => {
-    try {
-      const res = await API.get("/checkoutpart");
-      setCheckoutList(res.data);
-    } catch (err) {
-      console.error(err);
-      toast.error("Error fetching checkout parts!");
-    }
-  };
-
   useEffect(() => {
-    fetchCheckoutParts();
+    const fetchData = async () => {
+      setCheckoutLoading(true);
+      try {
+        const res = await API.get("/checkoutpart");
+        console.log("Checkout API Response:", res.data);
+        if (res.data && res.data.length > 0) {
+          const checkoutpart = res.data[0];
+          setCheckout({
+            title: checkoutpart.title || "",
+            sizes: checkoutpart.sizes || [],
+            colors: checkoutpart.colors || [],
+            shippingCosts: checkoutpart.shippingCosts || [],
+            footer: checkoutpart.footer || "",
+          });
+        }
+      } catch (err) {
+        console.error(err.response?.data || err.message);
+        toast.error("Error fetching data!");
+      } finally {
+        setCheckoutLoading(false);
+      }
+    };
+    fetchData();
   }, []);
 
   // Submit or update checkout part
   const handleCheckoutSubmit = async () => {
     setCheckoutLoading(true);
     try {
-      if (editId) {
-        // Update existing MongoDB document
-        await API.put(`/checkoutpart/`, { ...checkout, id: editId });
-        toast.success("Checkout Part updated successfully!");
-      } else {
-        // Create new MongoDB document
-        await API.post("/checkoutpart", checkout);
-        toast.success("Checkout Part saved successfully!");
-      }
-
-      setCheckout({
-        title: "",
-        sizes: [],
-        colors: [],
-        shippingCosts: [],
-        footer: "",
-      });
-      setEditId(null);
-      fetchCheckoutParts(); // Refresh list
+      await API.post("/checkoutpart", checkout);
+      toast.success("Checkout Part saved successfully!");
     } catch (err) {
       console.error(err);
       toast.error(err.response?.data?.error || "Error saving checkout part!");
     } finally {
       setCheckoutLoading(false);
     }
-  };
-
-  // Load data into form for editing
-  const handleEditCheckout = (item) => {
-    setCheckout(item);
-    setEditId(item._id);
   };
 
   return (
@@ -133,7 +142,9 @@ const ConfigureCard = () => {
           />
           <div className="text-end">
             <Button
-              children={cardLoading ? "Saving..." : "Update"}
+              children={
+                cardLoading ? "Saving..." : cardSection.title ? "Update" : "Add"
+              }
               onClick={handleCardSubmit}
               disabled={cardLoading}
             />
@@ -168,7 +179,7 @@ const ConfigureCard = () => {
 
           {/* Shipping Costs */}
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Shipping Costs
             </label>
             {checkout.shippingCosts.map((item, index) => (
@@ -176,7 +187,8 @@ const ConfigureCard = () => {
                 <input
                   type="text"
                   placeholder="Location (e.g., Inside Dhaka)"
-                  className="border rounded-md px-3 py-2 flex-1"
+                  className="px-3 py-2 border border-gray-300 rounded-md shadow-sm 
+                     focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary flex-1"
                   value={item.location}
                   onChange={(e) =>
                     handleCheckoutChange("shippingCosts", [
@@ -189,7 +201,8 @@ const ConfigureCard = () => {
                 <input
                   type="number"
                   placeholder="Cost"
-                  className="border rounded-md px-3 py-2 w-32"
+                  className="px-3 py-2 border border-gray-300 rounded-md shadow-sm 
+                     focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                   value={item.cost}
                   onChange={(e) =>
                     handleCheckoutChange("shippingCosts", [
@@ -201,18 +214,16 @@ const ConfigureCard = () => {
                 />
               </div>
             ))}
-            <button
-              type="button"
-              className="px-3 py-1 bg-blue-500 text-white rounded-md mt-2"
+            <Button
+              children={" + Add Shipping"}
               onClick={() =>
                 handleCheckoutChange("shippingCosts", [
                   ...checkout.shippingCosts,
                   { location: "", cost: 0 },
                 ])
               }
-            >
-              + Add Shipping
-            </button>
+              disabled={checkoutLoading}
+            />
           </div>
 
           <TextArea
@@ -225,7 +236,11 @@ const ConfigureCard = () => {
           <div className="text-end">
             <Button
               children={
-                checkoutLoading ? "Saving..." : editId ? "Update" : "Add"
+                checkoutLoading
+                  ? "Saving..."
+                  : checkout.title
+                  ? "Update"
+                  : "Add"
               }
               onClick={handleCheckoutSubmit}
               disabled={checkoutLoading}
@@ -233,43 +248,6 @@ const ConfigureCard = () => {
           </div>
         </form>
       </div>
-
-      {/* Display saved checkout parts */}
-      {checkoutList.length > 0 && (
-        <div className="p-4 bg-white rounded-md border border-Line mt-4">
-          <h3 className="text-xl text-Text-100 mb-3 font-semibold">
-            Saved Checkout Parts
-          </h3>
-          {checkoutList.map((item) => (
-            <div
-              key={item._id}
-              className="border-b last:border-b-0 mb-2 pb-2 flex justify-between items-center"
-            >
-              <div>
-                <p>
-                  <strong>Title:</strong> {item.title}
-                </p>
-                <p>
-                  <strong>Sizes:</strong> {item.sizes.join(", ")}
-                </p>
-                <p>
-                  <strong>Colors:</strong> {item.colors.join(", ")}
-                </p>
-                <p>
-                  <strong>Shipping Costs:</strong>{" "}
-                  {item.shippingCosts
-                    .map((s) => `${s.location}: ${s.cost}`)
-                    .join(" | ")}
-                </p>
-                <p>
-                  <strong>Footer:</strong> {item.footer}
-                </p>
-              </div>
-              <Button onClick={() => handleEditCheckout(item)}>Edit</Button>
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 };

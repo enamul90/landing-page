@@ -16,6 +16,7 @@ const OrderPage = () => {
       try {
         setLoading(true);
         const res = await API.get(`/orders`);
+        console.log(res.data);
         setOrders(res.data || []);
       } catch (error) {
         console.error("Failed to fetch orders:", error);

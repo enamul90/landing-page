@@ -39,20 +39,39 @@ const ConfigurePage = () => {
     setMajorsection({ ...majorsection, [key]: value });
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const res = await API.get("/configurepage/majorsection");
+        console.log("Major Section API Response:", res.data);
+        if (res.data) {
+          const major = res.data;
+          setMajorsection({
+            pageTitle: major.pageTitle || "",
+            sliderTitle: major.sliderTitle || "",
+            videoTitle: major.videoTitle || "",
+            videoUrl: major.videoUrl || "",
+            productTitle: major.productTitle || "",
+            reviewTitle: major.reviewTitle || "",
+          });
+        }
+      } catch (err) {
+        console.error(err.response?.data || err.message);
+        toast.error("Error fetching data!");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
   const handleSubmit = async () => {
     setLoading(true);
     try {
       const res = await API.post("/configurepage/majorsection", majorsection);
       console.log(res.data);
       toast.success("Card Section saved successfully!");
-      setMajorsection({
-        pageTitle: "",
-        sliderTitle: "",
-        videoTitle: "",
-        videoUrl: "",
-        productTitle: "",
-        reviewTitle: "",
-      });
     } catch (err) {
       console.error(err.response?.data || err.message);
       toast.error(err.response?.data?.error || "Error saving card section!");
@@ -73,7 +92,7 @@ const ConfigurePage = () => {
     setSections((prev) =>
       prev.map((sec) => (sec._id === updatedSection._id ? updatedSection : sec))
     );
-    setEditingSection(null); // modal বন্ধ
+    setEditingSection(null);
   };
 
   return (
@@ -133,7 +152,7 @@ const ConfigurePage = () => {
 
           <div className={"text-end"}>
             <Button
-              children={loading ? "Saving..." : "Update"}
+              children={loading ? "Saving..." : majorsection.pageTitle ? "Update" : "Add"}
               onClick={handleSubmit}
               disabled={loading}
             />

@@ -6,7 +6,7 @@ import { IoMdAdd, IoMdRemove } from "react-icons/io";
 import Link from "next/link";
 import API from "@/app/utils/axios";
 
-const ProductSection = ({ product = [1, 1, 1], addToCart }) => {
+const ProductSection = ({ productId, addToCart }) => {
   const [productTitle, setProductTitle] = useState("");
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,8 +25,19 @@ const ProductSection = ({ product = [1, 1, 1], addToCart }) => {
 
     const fetchProducts = async () => {
       try {
-        const res = await API.get("/products");
-        setProducts(res.data);
+        if (productId) {
+          // শুধু single product fetch
+          const res = await API.get("/products");
+          const product = res.data.find((p) => p._id === productId);
+          setProducts(product ? [product] : []);
+        } else {
+          // সব প্রোডাক্ট fetch
+          const res = await API.get("/products");
+          const filtered = res.data.filter(
+            (p) => p.showOnLanding === true
+          );
+          setProducts(filtered);
+        }
       } catch (err) {
         console.error("Failed to fetch products:", err);
       } finally {
@@ -117,7 +128,7 @@ const ProductSection = ({ product = [1, 1, 1], addToCart }) => {
                   </Link>
                   <Link
                     href="#allcard"
-                    onClick={() => addToCart(product)}
+                    onClick={() => addToCart(product._id)}
                     className="px-3 py-2 bg-secondary rounded text-white font-medium cursor-pointer transition duration-300 ease-in-out hover:scale-105"
                   >
                     কার্ড এ যুক্ত করুন

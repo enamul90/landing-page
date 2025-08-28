@@ -5,7 +5,7 @@ import Input from "@/components/form/Input";
 import API from "@/app/utils/axios";
 import toast from "react-hot-toast";
 
-const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
+const CheckOutSection = ({ title = "", description = "", product = [""], }) => {
   const [cartProducts, setCartProducts] = useState([]);
   const [productPartTitle, setProductPartTitle] = useState("");
   const [checkoutData, setCheckoutData] = useState({
@@ -16,6 +16,7 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
     footer: "",
   });
   const [loading, setLoading] = useState(true);
+  const [orderloading, setOrderloading] = useState(false);
 
   // ✅ new states
   const [formData, setFormData] = useState({
@@ -107,6 +108,7 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
 
   // ✅ handle submit
   const handleSubmit = async () => {
+    setOrderloading(true)
     const selectedProducts = cartProducts.filter((p) => p.checked);
 
     if (!formData.name || !formData.phone || !formData.address) {
@@ -148,6 +150,8 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
     } catch (error) {
       console.error("Failed to place order:", error);
       toast.error("অর্ডার ব্যর্থ হয়েছে ❌");
+    } finally {
+      setOrderloading(false)
     }
   };
 
@@ -346,7 +350,7 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
                     className="form-radio text-primary focus:ring-primary"
                   />
                   <span className="text-Text-100 font-semibold">
-                    {shipping.location} - {shipping.cost}৳
+                    {shipping.location} - {shipping.cost}TK
                   </span>
                 </div>
               ))}
@@ -398,7 +402,7 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
                       (acc, item) => acc + item.sellPrice * item.quantity,
                       0
                     )}
-                  ৳
+                  TK
                 </h5>
               </div>
               <div className={"flex justify-between items-center p-2"}>
@@ -411,7 +415,7 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
                       (acc, item) => acc + item.sellPrice * item.quantity,
                       0
                     ) + (formData.shippingCost || 0)}
-                  ৳
+                  TK
                 </h5>
               </div>
             </div>
@@ -430,14 +434,14 @@ const CheckOutSection = ({ title = "", description = "", product = [""] }) => {
               onClick={handleSubmit}
               className="lg:p-3 p-2 bg-primary w-full rounded mt-6 text-white font-semibold cursor-pointer"
             >
-              অর্ডার করুন{" "}
+              {orderloading ? "loading..." : "অর্ডার করুন"}
               {cartProducts
                 .filter((p) => p.checked)
                 .reduce(
                   (acc, item) => acc + item.sellPrice * item.quantity,
                   0
                 ) + (formData.shippingCost || 0)}
-              ৳
+              TK
             </button>
           </div>
         </div>

@@ -8,7 +8,7 @@ const MultipleInput = ({ data = "", value = [], onChange }) => {
   const handleAdd = () => {
     if (input.trim() !== "") {
       const updated = [...value, input.trim()];
-      onChange(updated); // parent এ পাঠানো হলো
+      onChange(updated);
       setInput("");
     }
   };
@@ -16,7 +16,7 @@ const MultipleInput = ({ data = "", value = [], onChange }) => {
   // Remove item
   const handleDelete = (index) => {
     const updated = value.filter((_, i) => i !== index);
-    onChange(updated); // parent এ পাঠানো হলো
+    onChange(updated);
   };
 
   return (

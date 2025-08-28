@@ -1,5 +1,5 @@
 'use client'
-import React, from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
 import {Sidebar} from "@/components/Layout/sidebar";
 import Dashboard from "@/page/Dashboard";

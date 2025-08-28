@@ -7,12 +7,17 @@ export async function POST(req) {
     await connectDB();
     const body = await req.json();
 
-    // পুরনো ডাটা মুছে দিয়ে নতুন ডাটা save করবো
-    await MajorSection.deleteMany({});
-    const newSection = await MajorSection.create(body);
+    let data = await MajorSection.findOne({});
+    if (data) {
+      data = await MajorSection.findByIdAndUpdate(data._id, body, {
+        new: true,
+      });
+    } else {
+      data = await MajorSection.create(body);
+    }
 
     return NextResponse.json(
-      { success: true, message: "Major Section Updated!", data: newSection },
+      { success: true, message: "Major Section Updated!", data },
       { status: 201 }
     );
   } catch (error) {

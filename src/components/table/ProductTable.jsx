@@ -32,7 +32,7 @@ const ProductTable = ({ filter, setSelectedIds }) => {
   }, []);
 
   const goToPage = (id) => {
-    router.push(`/singlePage/${id}`);
+    window.open(`/singlePage/${id}`);
   };
 
   const handleDelete = async (id) => {

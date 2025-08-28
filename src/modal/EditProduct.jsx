@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 
 const EditProduct = ({ product, Close, onUpdated }) => {
   const [formData, setFormData] = useState(product || {});
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     setFormData(product);
@@ -22,6 +23,7 @@ const EditProduct = ({ product, Close, onUpdated }) => {
   };
 
   const handleSubmit = async () => {
+    setLoading(true)
     try {
       const res = await API.put("/products", { id: product._id, ...formData });
       if (res.status === 200) {
@@ -32,6 +34,8 @@ const EditProduct = ({ product, Close, onUpdated }) => {
     } catch (err) {
       console.error("Failed to update product:", err);
       toast.error("Failed to update");
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -130,7 +134,7 @@ const EditProduct = ({ product, Close, onUpdated }) => {
             onClick={handleSubmit}
             className="py-2 px-3 text-white bg-secondary rounded-lg cursor-pointer"
           >
-            Update Product
+            {loading ? "Saving...." : "Update Product"}
           </button>
         </div>
       </div>
