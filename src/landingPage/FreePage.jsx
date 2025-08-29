@@ -133,6 +133,7 @@ const handleAddToCart = (productId) => {
                       key={item._id}
                       title={item.title}
                       content={item.content}
+                      subtitle={item.subtitle || ""}
                     />
                   );
                 case "Text editor":

@@ -16,7 +16,7 @@ const secondarySectionSchema = new Schema(
       enum: ["list", "image", "html"],
       required: true,
     },
-    content: Schema.Types.Mixed, // list => [String], image => URL, html => String
+    content: Schema.Types.Mixed,
   },
   { timestamps: true }
 );

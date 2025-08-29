@@ -434,7 +434,7 @@ const CheckOutSection = ({ title = "", description = "", product = [""], }) => {
               onClick={handleSubmit}
               className="lg:p-3 p-2 bg-primary w-full rounded mt-6 text-white font-semibold cursor-pointer"
             >
-              {orderloading ? "loading..." : "অর্ডার করুন"}
+              {orderloading ? "Processing Order.." : "অর্ডার করুন"} {" "}
               {cartProducts
                 .filter((p) => p.checked)
                 .reduce(

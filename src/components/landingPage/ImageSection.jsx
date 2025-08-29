@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 
-const ImageSection = ({ title, content }) => {
+const ImageSection = ({ title, content, subtitle }) => {
   return (
     <div className="my-10">
       <div className="video-section lg:p-3 p-2 lg:mt-20 md:mt-16 mt-8">
@@ -10,6 +10,11 @@ const ImageSection = ({ title, content }) => {
           {title}
         </h2>
       </div>
+      {subtitle && (
+        <p className="lg:text-lg text-base text-primary font-semibold text-center ">
+          {subtitle}
+        </p>
+      )}
       <div className="flex items-center justify-center mt-5">
         <img
           src={content}
