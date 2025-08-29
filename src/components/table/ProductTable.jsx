@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { MdPreview } from "react-icons/md";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
-import { useRouter } from "next/navigation";
 import API from "@/app/utils/axios";
 import toast from "react-hot-toast";
 import EditProduct from "../../modal/EditProduct";
@@ -15,7 +14,6 @@ const ProductTable = ({ filter, setSelectedIds }) => {
   const [loading, setLoading] = useState(true);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  const router = useRouter();
 
   useEffect(() => {
     const fetchProducts = async () => {

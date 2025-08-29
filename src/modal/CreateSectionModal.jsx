@@ -18,6 +18,7 @@ export default function CreateSectionModal({ onSave, editData, onClose }) {
   const [listItems, setListItems] = useState([""]);
   const [htmlContent, setHtmlContent] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
+  const [loading, setLoading] = useState(false)
 
   // edit mode হলে prefill হবে
   useEffect(() => {
@@ -71,6 +72,7 @@ export default function CreateSectionModal({ onSave, editData, onClose }) {
   };
 
   const handleSubmit = async () => {
+    setLoading(true); 
     const payload = {
       _id: editData?._id,
       title,
@@ -111,6 +113,8 @@ export default function CreateSectionModal({ onSave, editData, onClose }) {
     } catch (err) {
       console.error(err);
       toast.error("❌ Failed to save section");
+    } finally {
+      setLoading(false); 
     }
   };
 
@@ -280,10 +284,18 @@ export default function CreateSectionModal({ onSave, editData, onClose }) {
             <div className="text-end space-x-3 mt-4">
               <button
                 onClick={handleSubmit}
-                className="bg-primary text-white px-6 py-2 rounded-lg text-sm font-medium"
+                disabled={loading}
+                className={`px-6 py-2 rounded-lg text-sm font-medium text-white ${
+                  loading ? "bg-gray-400 cursor-not-allowed" : "bg-primary"
+                }`}
               >
-                {editData ? "Update Section" : "Create Section"}
+                {loading
+                  ? "Processing..."
+                  : editData
+                  ? "Update Section"
+                  : "Create Section"}
               </button>
+
               <button
                 type="button"
                 onClick={() => {

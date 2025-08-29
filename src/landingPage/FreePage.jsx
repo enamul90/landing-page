@@ -12,7 +12,6 @@ import CheckOutSection from "@/components/landingPage/CheckOutSection";
 import PageFooter from "@/components/landingPage/PageFooter";
 import API from "@/app/utils/axios";
 import toast from "react-hot-toast";
-import Link from "next/link";
 import ImageSection from "@/components/landingPage/ImageSection";
 import TextEditorSection from "@/components/landingPage/TextEditorSection";
 
@@ -83,15 +82,30 @@ const FreePage = () => {
     fetchCardSection();
   }, []);
 
-const handleAddToCart = (productId) => {
-  setCartProducts((prev) =>
-    prev.map((p) => (p._id === productId ? { ...p, checked: true } : p))
-  );
-  const addedProduct = products.find((p) => p._id === productId);
-  if (addedProduct) {
-    toast.success(`Added to cart! ${addedProduct.name}`);
-  }
-};
+  const handleAddToCart = (productId) => {
+    setCartProducts((prev) =>
+      prev.map((p) => (p._id === productId ? { ...p, checked: true } : p))
+    );
+
+    // যদি product আগে cart এ না থাকে, add করো
+    const addedProduct = products.find((p) => p._id === productId);
+    if (addedProduct && !cartProducts.find((p) => p._id === productId)) {
+      setCartProducts((prev) => [
+        ...prev,
+        { ...addedProduct, checked: true, quantity: 1 },
+      ]);
+    }
+
+    if (addedProduct) {
+      toast.success(`Added to cart! ${addedProduct.name}`);
+    }
+  };
+
+  const handleCheckboxChange = (productId) => {
+    setCartProducts((prev) =>
+      prev.map((p) => (p._id === productId ? { ...p, checked: !p.checked } : p))
+    );
+  };
 
   return (
     <>
@@ -105,8 +119,8 @@ const handleAddToCart = (productId) => {
         <PageTittle />
         <ImageSlider />
         <VideoSection />
-        <ProductSection addToCart={handleAddToCart} />
-        {loading
+        <ProductSection addToCart={handleAddToCart} products={products} />
+        {listItems.length === 0
           ? Array(3)
               .fill(0)
               .map((_, index) => (
@@ -155,7 +169,9 @@ const handleAddToCart = (productId) => {
         <CheckOutSection
           title={loading ? "Loading..." : title}
           description={loading ? "Loading..." : description}
-          product={cartProducts}
+          cartProducts={cartProducts} // ✅ prop নাম cartProducts করো
+          setCartProducts={setCartProducts}
+          onToggle={handleCheckboxChange}
         />
       </div>
 

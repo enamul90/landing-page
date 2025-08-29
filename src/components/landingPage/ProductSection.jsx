@@ -6,9 +6,9 @@ import { IoMdAdd, IoMdRemove } from "react-icons/io";
 import Link from "next/link";
 import API from "@/app/utils/axios";
 
-const ProductSection = ({ productId, addToCart }) => {
+const ProductSection = ({ productId, addToCart, products }) => {
   const [productTitle, setProductTitle] = useState("");
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -29,14 +29,12 @@ const ProductSection = ({ productId, addToCart }) => {
           // শুধু single product fetch
           const res = await API.get("/products");
           const product = res.data.find((p) => p._id === productId);
-          setProducts(product ? [product] : []);
+          // setProducts(product ? [product] : []);
         } else {
           // সব প্রোডাক্ট fetch
           const res = await API.get("/products");
-          const filtered = res.data.filter(
-            (p) => p.showOnLanding === true
-          );
-          setProducts(filtered);
+          const filtered = res.data.filter((p) => p.showOnLanding === true);
+          // setProducts(filtered);
         }
       } catch (err) {
         console.error("Failed to fetch products:", err);
@@ -73,7 +71,7 @@ const ProductSection = ({ productId, addToCart }) => {
         </h2>
       </div>
 
-      {loading
+      {products.length === 0
         ? Array.from({ length: 3 }).map((_, idx) => <SkeletonCard key={idx} />)
         : products.map((product, index) => (
             <div
