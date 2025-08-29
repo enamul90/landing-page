@@ -9,8 +9,7 @@ export default function SocialMediaInput({ value = [], onChange }) {
     { value: "twitter", label: "Twitter" },
     { value: "facebook", label: "Facebook" },
     { value: "instagram", label: "Instagram" },
-    { value: "linkedin", label: "LinkedIn" },
-    { value: "github", label: "GitHub" },
+    { value: "youtube", label: "Youtube" },
   ];
 
   const handleAddLink = () => {

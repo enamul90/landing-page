@@ -329,7 +329,7 @@ const CheckOutSection = ({ title = "", description = "", product = [""], }) => {
 
               <Input
                 LabelName={"ফোন নাম্বারঃ"}
-                Placeholder={"01722924089"}
+                Placeholder={"01xxxxxxxxxxxx"}
                 name="phone"
                 value={formData.phone}
                 onChange={(val) => handleChange("phone", val)}
