@@ -230,7 +230,7 @@ const CheckOutSection = ({
                   {/* Image */}
                   <div className="h-32 w-20 shrink-0">
                     <img
-                      src={item.image}
+                      src={`/uploads/${item.image}`}
                       alt={item.name}
                       className="w-full h-full object-cover"
                     />
@@ -374,7 +374,7 @@ const CheckOutSection = ({
                 <div key={item._id} className="flex gap-3 md:items-center mb-2">
                   <div className="h-16 w-16 shrink-0">
                     <img
-                      src={item.image}
+                      src={`/uploads/${item.image}`}
                       alt={item.name}
                       className="w-full h-full object-cover rounded"
                     />

@@ -57,7 +57,7 @@ const ImageSlider = () => {
                 ? product.gallery.map((img, index) => (
                     <SwiperSlide key={product._id + "-" + index}>
                       <img
-                        src={img}
+                        src={`/uploads/${img}`}
                         alt={product.name + " " + index}
                         className="w-full h-[380px] md:h-[500px] object-cover rounded-lg"
                       />

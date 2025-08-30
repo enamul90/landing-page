@@ -54,7 +54,7 @@ const PageNaveBar = () => {
       >
         <div className="w-14">
           <Image
-            src={logo}
+            src={`/uploads/${logo}`}
             alt="Logo"
             width={100}
             height={100}
@@ -63,21 +63,19 @@ const PageNaveBar = () => {
         </div>
 
         <div className="flex gap-4 items-center">
-          {loading ? (
-            "Loading..."
-          ) : (
-            socialLinks.map((link) => (
-              <Link
-                key={link._id}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-gray-600 hover:text-blue-600 transition"
-              >
-                {getIcon(link.platform)}
-              </Link>
-            ))
-          )}
+          {loading
+            ? "Loading..."
+            : socialLinks.map((link) => (
+                <Link
+                  key={link._id}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-600 hover:text-blue-600 transition"
+                >
+                  {getIcon(link.platform)}
+                </Link>
+              ))}
         </div>
       </div>
     </div>

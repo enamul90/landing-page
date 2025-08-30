@@ -31,17 +31,54 @@ const AddProduct = ({ Close }) => {
   };
 
   // Submit
-  const handleSubmit = async () => {
-    try {
-      const res = await API.post("/products", formData);
-      if (res.status === 201) {
-        Close(false);
-        toast.success("Product Published!")
-      }
-    } catch (err) {
-      console.error("Failed to add product:", err);
+const handleSubmit = async () => {
+  try {
+    let imageURL = formData.image;
+    let galleryURLs = [...formData.gallery];
+
+    // Upload thumbnail if it's a new file (base64)
+    if (imageURL && imageURL.startsWith("data:")) {
+      const form = new FormData();
+      const blob = await (await fetch(imageURL)).blob();
+      form.append("image", blob, "thumbnail.png"); // name doesn't matter, will be renamed
+      const res = await API.post("/upload", form, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      imageURL = res.data.filename;
     }
-  };
+
+    // Upload gallery images
+    const newGallery = [];
+    for (const img of galleryURLs) {
+      if (img.startsWith("data:")) {
+        const form = new FormData();
+        const blob = await (await fetch(img)).blob();
+        form.append("image", blob, "gallery.png");
+        const res = await API.post("/upload", form, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        newGallery.push(res.data.filename);
+      } else {
+        newGallery.push(img); // already uploaded image
+      }
+    }
+
+    // Save product with uploaded image URLs
+    const res = await API.post("/products", {
+      ...formData,
+      image: imageURL,
+      gallery: newGallery,
+    });
+    if (res.status === 201) {
+      Close(false);
+      toast.success("Product Published!");
+    }
+  } catch (err) {
+    console.error("Failed to add product:", err);
+    toast.error("Failed to publish product");
+  }
+};
+
 
   return (
     <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">

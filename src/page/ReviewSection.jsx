@@ -83,7 +83,7 @@ const handleDelete = async (id) => {
               className="relative overflow-hidden rounded-lg shadow-lg hover:scale-105 transition-transform duration-300 border border-Line"
             >
               <Image
-                src={image.image}
+                src={`/uploads/${image.image}`}
                 alt="Review Image"
                 width={300}
                 height={300}

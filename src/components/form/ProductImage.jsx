@@ -1,5 +1,8 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { Upload } from "lucide-react";
+import API from "@/app/utils/axios";
 
 export default function ProductImage({ value, onChange }) {
   const [preview, setPreview] = useState(value || null);
@@ -8,18 +11,26 @@ export default function ProductImage({ value, onChange }) {
     setPreview(value || null); // parent value sync
   }, [value]);
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreview(reader.result);
-        onChange && onChange(reader.result); // parent কে পাঠানো
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setPreview(null);
-      onChange && onChange(""); // parent কে খালি পাঠানো
+    if (!file) return;
+
+    // Preview দেখানোর জন্য
+    const reader = new FileReader();
+    reader.onloadend = () => setPreview(reader.result);
+    reader.readAsDataURL(file);
+
+    // Server এ আপলোড
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const res = await API.post("/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      onChange && onChange(res.data.filename); // server URL parent কে পাঠানো
+    } catch (err) {
+      console.error("Image upload failed:", err);
     }
   };
 
@@ -41,14 +52,13 @@ export default function ProductImage({ value, onChange }) {
         />
         <div
           className="w-full h-36 overflow-hidden border border-Line flex items-center justify-center bg-gray-50
-                    hover:bg-gray-100 transition-colors duration-200
-                    focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2  rounded-md mx-auto shadow"
+                     hover:bg-gray-100 transition-colors duration-200 rounded-md mx-auto shadow"
           role="button"
           tabIndex={0}
         >
           {preview ? (
             <img
-              src={preview}
+              src={`/uploads/${preview}`}
               alt="Image preview"
               className="min-w-full min-h-full object-contain rounded-md"
             />

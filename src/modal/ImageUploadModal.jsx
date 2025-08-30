@@ -1,9 +1,9 @@
-import React from 'react';
-import {useState} from 'react'
-import Image from 'next/image';
-import { MdUpload } from 'react-icons/md';
-import API from '@/app/utils/axios';
-import toast from 'react-hot-toast';
+import React from "react";
+import { useState } from "react";
+import Image from "next/image";
+import { MdUpload } from "react-icons/md";
+import API from "@/app/utils/axios";
+import toast from "react-hot-toast";
 
 const ImageUploadModal = ({ onUploadSuccess }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,23 +22,28 @@ const handleUpload = async () => {
   if (!selectedImage) return;
 
   try {
-    const reader = new FileReader();
-    reader.readAsDataURL(selectedImage); 
-    reader.onloadend = async () => {
-      const base64Image = reader.result;
+    const formData = new FormData();
+    formData.append("image", selectedImage);
 
-      const res = await API.post("/review", { image: base64Image });
-      toast.success("Image Uploaded!")
+    // 1️⃣ Upload to /api/upload → saves in folder
+    const uploadRes = await API.post("/upload", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
 
-      if (res.status === 201) {
-        setIsModalOpen(false);
-        setSelectedImage(null);
-        setImagePreview(null);
-        if (onUploadSuccess) onUploadSuccess();
-      }
-    };
+    const { filename } = uploadRes.data;
+
+    // 2️⃣ Save in database via /review API
+    await API.post("/review", { image: `${filename}` });
+
+    toast.success("Image uploaded and saved!");
+    setIsModalOpen(false);
+    setSelectedImage(null);
+    setImagePreview(null);
+
+    if (onUploadSuccess) onUploadSuccess();
   } catch (error) {
     console.error("Upload failed:", error);
+    toast.error("Upload failed!");
   }
 };
 

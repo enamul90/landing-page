@@ -52,7 +52,7 @@ export function Sidebar({ isOpen = true }) {
       <div className=" flex items-center justify-center mt-10 mb-5 mx-auto w-full px-1">
         <div className="flex justify-center mb-6 h-[100px] w-fit mx-auto">
           <Image
-            src={logo}
+            src={`/uploads/${logo}`}
             alt="Logo"
             width={100}
             height={100}

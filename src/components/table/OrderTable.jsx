@@ -116,7 +116,7 @@ const OrderTable = ({ orders = [], loading, setOrders }) => {
                     <div key={p._id} className="flex gap-3 mb-2">
                       <div className="h-20 w-18 shrink-0">
                         <img
-                          src={p.image}
+                          src={`/uploads/${p.image}`}
                           alt={p.name}
                           className="h-full w-full object-cover object-center rounded-md"
                         />
@@ -294,7 +294,7 @@ const OrderTable = ({ orders = [], loading, setOrders }) => {
                     className="flex items-center gap-3 border rounded-lg p-3 hover:bg-gray-50 transition"
                   >
                     <img
-                      src={p.image}
+                      src={`/uploads/${p.image}`}
                       alt={p.name}
                       className="w-16 h-16 rounded object-cover border"
                     />

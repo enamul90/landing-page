@@ -93,7 +93,7 @@ const ReviewSection = ({ title = "" }) => {
           {images.map((image) => (
             <SwiperSlide key={image._id}>
               <img
-                src={image.image}
+                src={`/uploads/${image.image}`}
                 alt="Review Image"
                 className="w-full h-[380px] md:h-[500px] object-cover"
               />

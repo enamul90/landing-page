@@ -3,41 +3,49 @@
 import { useState, useEffect } from "react";
 import { FiUpload } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
+import API from "@/app/utils/axios";
 
 export default function MultiImageUpload({ value = [], onChange }) {
   const [previews, setPreviews] = useState(value);
 
-  // Sync parent value on mount/update
   useEffect(() => {
     setPreviews(value);
   }, [value]);
 
   // Handle new files
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const files = Array.from(e.target.files);
 
-    const readers = files.map((file) => {
-      return new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result);
-        reader.readAsDataURL(file);
-      });
-    });
+    const uploadedFiles = await Promise.all(
+      files.map(async (file) => {
+        try {
+          const formData = new FormData();
+          formData.append("image", file);
 
-    Promise.all(readers).then((images) => {
-      const newPreviews = [...previews, ...images];
-      setPreviews(newPreviews);
-      onChange(newPreviews); // Send updated array to parent
-    });
+          const res = await API.post("/upload", formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+          });
 
-    e.target.value = null; // Reset input to allow same file upload again
+          return res.data.filename; // server filename
+        } catch (err) {
+          console.error("Upload failed:", err);
+          return null;
+        }
+      })
+    );
+
+    const validFiles = uploadedFiles.filter((f) => f !== null);
+    const newPreviews = [...previews, ...validFiles];
+    setPreviews(newPreviews);
+    onChange(newPreviews); // update parent
+    e.target.value = null;
   };
 
-  // Remove a selected image
+  // Remove selected image
   const handleRemove = (indexToRemove) => {
     const newPreviews = previews.filter((_, index) => index !== indexToRemove);
     setPreviews(newPreviews);
-    onChange(newPreviews); // Update parent
+    onChange(newPreviews);
   };
 
   return (
@@ -49,7 +57,6 @@ export default function MultiImageUpload({ value = [], onChange }) {
         Upload Gallery
       </label>
 
-      {/* Upload Button */}
       <div className="relative">
         <input
           type="file"
@@ -68,13 +75,12 @@ export default function MultiImageUpload({ value = [], onChange }) {
         </div>
       </div>
 
-      {/* Previews */}
       {previews.length > 0 && (
         <div className="mt-4 grid grid-cols-3 gap-4">
-          {previews.map((src, index) => (
+          {previews.map((filename, index) => (
             <div key={index} className="relative group">
               <img
-                src={src}
+                src={`/uploads/${filename}`} // server path
                 alt={`Preview ${index + 1}`}
                 className="w-24 h-24 object-cover rounded-md border"
               />

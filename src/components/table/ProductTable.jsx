@@ -163,7 +163,7 @@ const ProductTable = ({ filter, setSelectedIds }) => {
                     <div className="w-[80px] h-[80px]">
                       {product.image && (
                         <Image
-                          src={product.image}
+                          src={`/uploads/${product.image}`}
                           alt={product.name}
                           width={100}
                           height={100}

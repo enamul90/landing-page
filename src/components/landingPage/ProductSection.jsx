@@ -80,7 +80,7 @@ const ProductSection = ({ productId, addToCart, products }) => {
             >
               <div className="md:w-80 lg:w-100 w-full h-95 lg:h-130 shrink-0">
                 <Image
-                  src={product.image}
+                  src={`/uploads/${product.image}`}
                   alt={product.name}
                   height={300}
                   width={300}
