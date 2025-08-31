@@ -17,12 +17,12 @@ export async function POST(req) {
     Math.round(Math.random() * 1e9) +
     path.extname(file.name);
 
- const uploadDir = path.join(process.cwd(), "public", "uploads");
- if (!fs.existsSync(uploadDir)) {
-   fs.mkdirSync(uploadDir, { recursive: true });
- }
+const uploadDir = path.join(process.cwd(), "public", "uploads");
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
- fs.writeFileSync(path.join(uploadDir, uniqueName), buffer);
+fs.writeFileSync(path.join(uploadDir, uniqueName), buffer);
 
   return NextResponse.json({ filename: uniqueName });
 }
