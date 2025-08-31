@@ -9,6 +9,7 @@ import API from "@/app/utils/axios";
 const ProductSection = ({ productId, addToCart, products }) => {
   const [productTitle, setProductTitle] = useState("");
   // const [products, setProducts] = useState([]);
+  const [quantities, setQuantities] = useState({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -63,6 +64,20 @@ const ProductSection = ({ productId, addToCart, products }) => {
     </div>
   );
 
+  const handleIncrease = (productId) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [productId]: (prev[productId] || 1) + 1,
+    }));
+  };
+
+  const handleDecrease = (productId) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [productId]: Math.max((prev[productId] || 1) - 1, 1), // minimum 1
+    }));
+  };
+
   return (
     <>
       <div className="video-section lg:p-3 p-2 lg:mt-20 md:mt-16 mt-8">
@@ -107,11 +122,17 @@ const ProductSection = ({ productId, addToCart, products }) => {
                   </h3>
 
                   <div className="flex gap-4 items-center border border-Line rounded-md  w-fit text-lg font-medium">
-                    <button className="px-3 py-2 border-e border-Line">
+                    <button
+                      onClick={() => handleDecrease(product._id)}
+                      className="px-3 py-2 border-e border-Line"
+                    >
                       <IoMdRemove />
                     </button>
-                    01
-                    <button className="px-3 py-2 border-s border-Line">
+                    {quantities[product._id] || 1}
+                    <button
+                      onClick={() => handleIncrease(product._id)}
+                      className="px-3 py-2 border-s border-Line"
+                    >
                       <IoMdAdd />
                     </button>
                   </div>
@@ -124,13 +145,12 @@ const ProductSection = ({ productId, addToCart, products }) => {
                   >
                     ক্রয় করুন
                   </Link>
-                  <Link
-                    href="#allcard"
+                  <span
                     onClick={() => addToCart(product._id)}
                     className="px-3 py-2 bg-secondary rounded text-white font-medium cursor-pointer transition duration-300 ease-in-out hover:scale-105"
                   >
                     কার্ড এ যুক্ত করুন
-                  </Link>
+                  </span>
                 </div>
               </div>
             </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
@@ -13,8 +13,24 @@ export default function LoginPage() {
 
   const [email, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
+  const [logo, setLogo] = useState("/logo/logo.png");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchCompanyInfo = async () => {
+      try {
+        const res = await API.get("/companyinfo");
+        if (res.data && res.data.length > 0) {
+          const info = res.data[0];
+          setLogo(info.logo || "/logo/logo.png");
+        }
+      } catch (err) {
+        console.error("Failed to fetch logo and social links:", err);
+      }
+    };
+
+    fetchCompanyInfo();
+  }, []);
 
   const loginData = {
     email,
@@ -45,7 +61,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md p-4 md:p-8 md:bg-Shave md:rounded-lg md:shadow md:border border-Line">
         <div className="flex justify-center mb-6 h-[130px] w-fit mx-auto">
           <Image
-            src="/logo/logo.png"
+            src={`/uploads/${logo}`}
             alt="Logo"
             width={100}
             height={100}

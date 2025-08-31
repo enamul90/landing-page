@@ -101,7 +101,7 @@ const PageFooter = () => {
               : socialLinks.map((link) => (
                   <a
                     key={link._id}
-                    href={link.url}
+                    href={`https://${link.url}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-secondary hover:text-blue-600 transition"

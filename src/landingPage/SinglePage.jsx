@@ -11,8 +11,10 @@ import ReviewSection from "@/components/landingPage/ReviewSection";
 import CheckOutSection from "@/components/landingPage/CheckOutSection";
 import PageFooter from "@/components/landingPage/PageFooter";
 import API from "@/app/utils/axios";
-import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
+import ImageSection from "@/components/landingPage/ImageSection";
+import TextEditorSection from "@/components/landingPage/TextEditorSection";
+import { useParams } from "next/navigation";
 
 const SinglePage = () => {
   const params = useParams();
@@ -20,13 +22,10 @@ const SinglePage = () => {
   const [title, setTitle] = useState("");
   const [reviewTitle, setReviewTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [products, setProducts] = useState([]);
   const [cartProducts, setCartProducts] = useState([]);
+  const [listItems, setListItems] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const handleAddToCart = (product) => {
-    setCartProducts((prev) => [...prev, product]);
-    toast.success(`Added to cart! ${product.name}`);
-  };
 
   useEffect(() => {
     const fetchCardSection = async () => {
@@ -55,30 +54,61 @@ const SinglePage = () => {
       }
     };
 
+    const fetchSecondarySection = async () => {
+      try {
+        const res = await API.get("/configurepage/secondarysection");
+
+        if (res.data) {
+          // শুধু list item গুলো আলাদা করি
+          setListItems(res.data.filter((item) => item.showOnLanding));
+        }
+      } catch (error) {
+        console.error("Failed to fetch secondary section:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchProducts = async () => {
+      const res = await API.get("/products");
+      const data = res.data.map((p) => ({
+        ...p,
+        checked: false,
+      }));
+      setProducts(data);
+      setCartProducts(data);
+    };
+
+    fetchProducts();
+    fetchSecondarySection();
     fetchMajorSection();
     fetchCardSection();
   }, []);
 
-  const data = [
-    "দৈনন্দিন বা বিশেষ অনুষ্ঠানের জন্য পারফেক্ট।",
-    "প্রিমিয়াম চেরি ফ্যাব্রিক নরম, মসৃণ, এবং টেকসই, যা আপনাকে দিনভর আরাম দেবে।",
-    "এই বোরকাটির সাথে থাকবে ফুল কভারেজ স্টোনের কাজ করা হিজাব।",
-    "হিডেন পকেটস যা আপনার দৈনন্দিন প্রয়োজন মেটানোর জন্য চমৎকারভাবে ডিজাইন করা।",
-    "হএই আবায়া হালকা ওজনের এবং আরামদায়ক, যা দীর্ঘ সময় পরলেও আপনাকে স্বাচ্ছন্দ্য দিবে।",
-    "স্টাইলিশ, অথচ পরিপূর্ণ শালীনতায় মোড়ানো এই পোশাক আপনার প্রতিদিনের জীবনকে করবে আরও স্পেশাল।",
-    "অরজিনাল এম সি স্টোন দিয়ে কাজ করা।",
-    "ম্যাটেরিয়াল - পিওর সফট অরজিনাল দুবাই চেরি ফেব্রিক্স।",
-    "মেজারমেন্ট - ৫০ | ৫২| ৫৪ |৫৬ বডি: ফ্রি সাইজ,১৫০+ গের",
-  ];
+  const handleAddToCart = (productId) => {
+    setCartProducts((prev) =>
+      prev.map((p) => (p._id === productId ? { ...p, checked: true } : p))
+    );
 
-  const data2 = [
-    "দৈনন্দিন বা বিশেষ অনুষ্ঠানের জন্য পারফেক্ট।",
-    "প্রিমিয়াম চেরি ফ্যাব্রিক নরম, মসৃণ, এবং টেকসই, যা আপনাকে দিনভর আরাম দেবে।",
-    "এই বোরকাটির সাথে থাকবে ফুল কভারেজ স্টোনের কাজ করা হিজাব।",
-    "হিডেন পকেটস যা আপনার দৈনন্দিন প্রয়োজন মেটানোর জন্য চমৎকারভাবে ডিজাইন করা।",
-    "হএই আবায়া হালকা ওজনের এবং আরামদায়ক, যা দীর্ঘ সময় পরলেও আপনাকে স্বাচ্ছন্দ্য দিবে।",
-    "স্টাইলিশ, অথচ পরিপূর্ণ শালীনতায় মোড়ানো এই পোশাক আপনার প্রতিদিনের জীবনকে করবে আরও স্পেশাল।",
-  ];
+    // যদি product আগে cart এ না থাকে, add করো
+    const addedProduct = products.find((p) => p._id === productId);
+    if (addedProduct && !cartProducts.find((p) => p._id === productId)) {
+      setCartProducts((prev) => [
+        ...prev,
+        { ...addedProduct, checked: true, quantity: 1 },
+      ]);
+    }
+
+    if (addedProduct) {
+      toast.success(`Added to cart! ${addedProduct.name}`);
+    }
+  };
+
+  const handleCheckboxChange = (productId) => {
+    setCartProducts((prev) =>
+      prev.map((p) => (p._id === productId ? { ...p, checked: !p.checked } : p))
+    );
+  };
 
   return (
     <>
@@ -92,22 +122,59 @@ const SinglePage = () => {
         <PageTittle />
         <ImageSlider />
         <VideoSection />
-        <ProductSection productId={productId} addToCart={handleAddToCart} />
-        <ListData data={data} title={"কেন এই আবাটি বেছে নেবেন ?"} />
-        <ListData
-          data={data2}
-          title={"আমাদের উপর কেন আপনি বিশ্বাস ও আস্থা রাখবেন ?"}
-        />
+        <ProductSection addToCart={handleAddToCart} products={products} />
+        {listItems.length === 0
+          ? Array(3)
+              .fill(0)
+              .map((_, index) => (
+                <div key={index} className="animate-pulse space-y-3 my-6">
+                  <div className="h-6 bg-gray-300 rounded w-3/4 mx-auto"></div>
+                  <div className="h-4 bg-gray-300 rounded w-5/6 mx-auto"></div>
+                  <div className="h-4 bg-gray-300 rounded w-2/3 mx-auto"></div>
+                </div>
+              ))
+          : listItems.map((item) => {
+              switch (item.type) {
+                case "List item":
+                  return (
+                    <ListData
+                      key={item._id}
+                      data={Array.isArray(item.content) ? item.content : []}
+                      title={item.title}
+                      subtitle={item.subtitle || ""}
+                    />
+                  );
+                case "Single image":
+                  return (
+                    <ImageSection
+                      key={item._id}
+                      title={item.title}
+                      content={item.content}
+                      subtitle={item.subtitle || ""}
+                    />
+                  );
+                case "Text editor":
+                  return (
+                    <TextEditorSection
+                      key={item._id}
+                      title={item.title}
+                      content={item.content}
+                      subtitle={item.subtitle || ""}
+                    />
+                  );
+                default:
+                  return null;
+              }
+            })}
 
-        <ReviewSection
-          data={data2}
-          title={loading ? "Loading..." : reviewTitle}
-        />
+        <ReviewSection title={loading ? "Loading..." : reviewTitle} />
 
         <CheckOutSection
           title={loading ? "Loading..." : title}
           description={loading ? "Loading..." : description}
-          product={cartProducts}
+          cartProducts={cartProducts} // ✅ prop নাম cartProducts করো
+          setCartProducts={setCartProducts}
+          onToggle={handleCheckboxChange}
         />
       </div>
 

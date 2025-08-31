@@ -1,6 +1,7 @@
 import { connectDB } from "@/app/lib/db";
 import { NextResponse } from "next/server";
 import Order from "@/app/models/Order";
+import { getAuthUser } from "@/app/lib/auth";
 
 export async function POST(req) {
   try {
@@ -19,6 +20,10 @@ export async function GET(req) {
 
     const { searchParams } = new URL(req.url);
     const status = searchParams.get("status"); // status query parameter
+
+    const user = getAuthUser();
+
+    if (!user) return NextResponse.json({ error: "Unauthorized" });
 
     const query = status ? { status } : {}; // যদি status থাকে শুধু সেই status filter করবে
     const orders = await Order.find(query);
@@ -48,4 +53,3 @@ export async function PUT(req) {
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
-

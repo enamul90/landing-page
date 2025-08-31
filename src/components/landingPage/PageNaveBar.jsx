@@ -66,15 +66,15 @@ const PageNaveBar = () => {
           {loading
             ? "Loading..."
             : socialLinks.map((link) => (
-                <Link
+                <a
                   key={link._id}
-                  href={link.url}
+                  href={`https://${link.url}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-600 hover:text-blue-600 transition"
                 >
                   {getIcon(link.platform)}
-                </Link>
+                </a>
               ))}
         </div>
       </div>
