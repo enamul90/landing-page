@@ -44,7 +44,6 @@ const handleSubmit = async (e) => {
     setLoading(true);
     const res = await API.post("/user/login", loginData);
     if (res.data.status === 200) {
-      // Token save করা হলো
       localStorage.setItem("token", res.data.token);
 
       toast.success("Log In Successfully");

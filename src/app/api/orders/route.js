@@ -1,7 +1,6 @@
 import { connectDB } from "@/app/lib/db";
 import { NextResponse } from "next/server";
 import Order from "@/app/models/Order";
-import { getAuthUser } from "@/app/lib/auth";
 
 export async function POST(req) {
   try {
@@ -34,18 +33,15 @@ export async function PUT(req) {
   try {
     await connectDB();
     const body = await req.json();
-    console.log("PUT request body:", body);
     const updatedOrder = await Order.findByIdAndUpdate(
       body._id,
       { status: body.status },
       { new: true }
     );
-    console.log("Updated order:", updatedOrder);
     if (!updatedOrder)
       return NextResponse.json({ error: "Order not found" }, { status: 404 });
     return NextResponse.json(updatedOrder, { status: 200 });
   } catch (err) {
-    console.log("PUT error:", err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

@@ -75,7 +75,7 @@ const ConfigureCard = () => {
       setCheckoutLoading(true);
       try {
         const res = await API.get("/checkoutpart");
-        console.log("Checkout API Response:", res.data);
+        // console.log("Checkout API Response:", res.data);
         if (res.data && res.data.length > 0) {
           const checkoutpart = res.data[0];
           setCheckout({

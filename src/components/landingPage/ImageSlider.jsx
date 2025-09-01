@@ -16,7 +16,7 @@ const ImageSlider = () => {
     const fetchProducts = async () => {
       try {
         const res = await API.get("/products");
-        console.log("Fetched products:", res.data);
+        // console.log("Fetched products:", res.data);
         setProducts(res.data);
       } catch (err) {
         console.error("Failed to fetch products:", err);

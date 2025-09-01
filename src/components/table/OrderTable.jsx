@@ -3,13 +3,29 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { MdOutlinePreview, MdArrowDropDown } from "react-icons/md";
+import {
+  MdOutlinePreview,
+  MdArrowDropDown,
+} from "react-icons/md";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import { FaRegEdit } from "react-icons/fa";
 import API from "@/app/utils/axios";
 import toast from "react-hot-toast";
+import {
+  FaUser,
+  FaPhoneAlt,
+  FaMapMarkerAlt,
+  FaCalendarAlt,
+  FaTruck,
+  FaMoneyBillWave,
+  FaBoxOpen,
+  FaPalette,
+  FaRuler,
+  FaTimes,
+} from "react-icons/fa";
+import { MdOutlineProductionQuantityLimits } from "react-icons/md";
 
-const OrderTable = ({ orders = [], loading, setOrders }) => {
+const OrderTable = ({ orders = [], loading, setOrders, subPage }) => {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [statusLoading, setStatusLoading] = useState(false);
@@ -71,9 +87,11 @@ const OrderTable = ({ orders = [], loading, setOrders }) => {
               <th className="px-2 py-3 text-left border-e border-Line">
                 Courier
               </th>
-              <th className="px-2 py-3 text-left border-e border-Line">
-                Admin Note
-              </th>
+              {subPage !== "new-order" && (
+                <th className="px-2 py-3 text-left border-e border-Line">
+                  Admin Note
+                </th>
+              )}
             </tr>
 
             {orders.map((order) => (
@@ -186,11 +204,14 @@ const OrderTable = ({ orders = [], loading, setOrders }) => {
                   </h5>
                 </td>
 
-                <td className="p-2 border-e border-Line">
-                  <h5 className="font-normal text-Text-100 max-w-30">
-                    There are many variations of passages of Lorem
-                  </h5>
-                </td>
+                {subPage !== "new-order" && (
+                  <td className="p-2 border-e border-Line">
+                    <h5 className="font-normal text-Text-100 max-w-30">
+                      {order.adminNote ||
+                        "There are many variations of passages of Lorem"}
+                    </h5>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
@@ -237,113 +258,136 @@ const OrderTable = ({ orders = [], loading, setOrders }) => {
 
       {/* ==== Preview Modal ==== */}
       {selectedOrder && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9999]">
-          <div className="bg-white rounded-2xl shadow-2xl w-[600px] max-w-full p-6 relative animate-fadeIn overflow-y-auto">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-md">
+          <div className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl w-[650px] max-w-full max-h-[90vh] overflow-y-auto animate-fadeIn border border-gray-200">
             {/* Header */}
-            <div className="flex items-center justify-between border-b pb-2 mb-4">
-              <h2 className="text-2xl font-bold text-gray-800">
-                Order Preview
+            <div className="bg-gradient-to-r from-primary to-secondary px-6 py-4 flex justify-between items-center">
+              <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                <FaBoxOpen /> Order Preview
               </h2>
               <button
-                className="text-red-500 hover:text-red-700 text-xl"
                 onClick={() => setSelectedOrder(null)}
+                className="text-white hover:text-red-200 text-2xl font-bold"
               >
-                ✕
+                <FaTimes />
               </button>
             </div>
 
-            {/* Customer Info */}
-            <div className="grid grid-cols-2 gap-4 mb-4">
-              <div className="space-y-1">
-                <p>
-                  <span className="font-semibold">Name:</span>{" "}
-                  {selectedOrder.name}
-                </p>
-                <p>
-                  <span className="font-semibold">Phone:</span>{" "}
-                  {selectedOrder.phone}
-                </p>
-                <p>
-                  <span className="font-semibold">Address:</span>{" "}
-                  {selectedOrder.address}
-                </p>
+            {/* Content */}
+            <div className="p-6 overflow-y-auto max-h-[70vh] space-y-6">
+              {/* Customer Info */}
+              <div className="grid grid-cols-2 gap-6">
+                <div className="bg-gray-50 rounded-xl p-4 space-y-1 border">
+                  <p>
+                    <span className="font-semibold">
+                      <FaUser className="inline mr-2" /> Name:
+                    </span>{" "}
+                    {selectedOrder.name}
+                  </p>
+                  <p>
+                    <span className="font-semibold">
+                      <FaPhoneAlt className="inline mr-2" /> Phone:
+                    </span>{" "}
+                    {selectedOrder.phone}
+                  </p>
+                  <p>
+                    <span className="font-semibold">
+                      <FaMapMarkerAlt className="inline mr-2" /> Address:
+                    </span>{" "}
+                    {selectedOrder.address}
+                  </p>
+                </div>
+                <div className="bg-gray-50 rounded-xl p-4 space-y-1 border text-right">
+                  <p>
+                    <span className="font-semibold">
+                      <FaCalendarAlt className="inline mr-2" /> Date:
+                    </span>{" "}
+                    {new Date(selectedOrder.createdAt).toLocaleString()}
+                  </p>
+                  <p>
+                    <span className="font-semibold">
+                      <FaTruck className="inline mr-2" /> Shipping:
+                    </span>{" "}
+                    {selectedOrder.shippingCost}TK
+                  </p>
+                  <p>
+                    <span className="font-semibold">
+                      <FaMoneyBillWave className="inline mr-2" /> Total:
+                    </span>{" "}
+                    {selectedOrder.totalAmount}TK
+                  </p>
+                </div>
               </div>
-              <div className="space-y-1 text-right">
-                <p>
-                  <span className="font-semibold">Date:</span>{" "}
-                  {new Date(selectedOrder.createdAt).toLocaleString()}
-                </p>
-                <p>
-                  <span className="font-semibold">Shipping:</span>{" "}
-                  {selectedOrder.shippingCost}TK
-                </p>
-                <p>
-                  <span className="font-semibold">Total:</span>{" "}
-                  {selectedOrder.totalAmount}TK
-                </p>
-              </div>
-            </div>
 
-            {/* Products */}
-            <div>
-              <h3 className="font-semibold mb-2 text-gray-700">Products:</h3>
-              <div className="space-y-3 max-h-60 overflow-y-auto pr-2">
-                {selectedOrder.products.map((p) => (
-                  <div
-                    key={p._id}
-                    className="flex items-center gap-3 border rounded-lg p-3 hover:bg-gray-50 transition"
-                  >
-                    <img
-                      src={`/uploads/${p.image}`}
-                      alt={p.name}
-                      className="w-16 h-16 rounded object-cover border"
-                    />
-                    <div className="flex-1">
-                      <p className="font-medium">{p.name}</p>
-                      <p className="text-sm text-gray-500">
-                        Color: {p.color} | Size: {p.size}
-                      </p>
-                      <p className="text-sm font-semibold">
-                        Price: {p.sellPrice} TK
-                      </p>
-                      <p className="text-sm font-semibold">
-                        Quantity: {p.quantity}
-                      </p>
+              {/* Products */}
+              <div>
+                <h3 className="text-lg font-semibold mb-3 text-gray-800 flex items-center gap-2">
+                  <FaBoxOpen /> Products
+                </h3>
+                <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2">
+                  {selectedOrder.products.map((p) => (
+                    <div
+                      key={p._id}
+                      className="flex items-center gap-4 border rounded-2xl p-4 bg-white hover:shadow-md transition"
+                    >
+                      <img
+                        src={`/uploads/${p.image}`}
+                        alt={p.name}
+                        className="w-20 h-20 rounded-xl object-cover border"
+                      />
+                      <div className="flex-1">
+                        <p className="font-semibold text-gray-800">{p.name}</p>
+                        <p className="text-sm text-gray-500 flex gap-3">
+                          <span>
+                            <FaPalette className="inline mr-1" /> {p.color}
+                          </span>
+                          <span>
+                            <FaRuler className="inline mr-1" /> {p.size}
+                          </span>
+                        </p>
+                        <div className="flex gap-4 mt-1 text-sm">
+                          <span className="px-3 py-1 bg-green-100 text-green-600 rounded-full font-medium flex items-center gap-1">
+                            <FaMoneyBillWave /> {p.sellPrice} TK
+                          </span>
+                          <span className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full font-medium flex items-center gap-1">
+                            <MdOutlineProductionQuantityLimits /> {p.quantity}
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
 
             {/* Footer */}
-            <div className="mt-6 flex justify-between items-center">
+            <div className="px-6 py-4 border-t flex justify-between items-center bg-gray-50">
               {/* Status Dropdown */}
-              <div className="relative inline-block text-left">
+              <div className="relative inline-block">
                 <button
-                  className="px-4 py-2 bg-gray-100 border rounded-lg text-gray-700 font-medium hover:bg-gray-200 focus:outline-none flex items-center gap-3"
                   onClick={() => setShowDropdown((prev) => !prev)}
                   disabled={statusLoading}
+                  className="px-4 py-2 bg-gradient-to-r from-primary to-secondary text-white font-medium rounded-lg shadow hover:opacity-90 flex items-center gap-2"
                 >
-                  <div>{statusLoading ? "Updating..." : "Change Status"}</div>
-                  <MdArrowDropDown className="text-xl" />
+                  {statusLoading ? "Updating..." : "Change Status"}
+                  <MdArrowDropDown className="text-lg" />
                 </button>
 
-                {/* Dropdown Menu */}
                 {showDropdown && (
-                  <div className="absolute left-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
+                  <div className="absolute left-0 mt-2 w-44 bg-white border rounded-xl shadow-lg overflow-hidden">
                     <button
-                      className="block w-full px-4 py-2 text-left hover:bg-gray-100"
                       onClick={() => handleStatusChange("hold")}
                       disabled={statusLoading}
+                      className="block w-full px-4 py-2 text-left hover:bg-gray-100"
                     >
-                      Hold Order
+                      ⏸ Hold Order
                     </button>
                     <button
-                      className="block w-full px-4 py-2 text-left hover:bg-gray-100 text-red-500"
                       onClick={() => handleStatusChange("cancel")}
                       disabled={statusLoading}
+                      className="block w-full px-4 py-2 text-left hover:bg-gray-100 text-red-600"
                     >
-                      Cancel Order
+                      ❌ Cancel Order
                     </button>
                   </div>
                 )}
@@ -351,8 +395,8 @@ const OrderTable = ({ orders = [], loading, setOrders }) => {
 
               {/* Close button */}
               <button
-                className="px-5 py-2 rounded-lg bg-primary text-white font-semibold hover:bg-secondary transition"
                 onClick={() => setSelectedOrder(null)}
+                className="px-6 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 font-semibold text-gray-800 transition"
               >
                 Close
               </button>

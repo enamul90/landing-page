@@ -57,7 +57,7 @@ export default function SettingPage() {
     setButtonLoading(true);
     try {
       const res = await API.post("/companyinfo", formData);
-      console.log(res.data);
+      // console.log(res.data);
       toast.success("Saved successfully!");
     } catch (err) {
       console.error(err.response?.data || err.message);

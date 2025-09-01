@@ -25,9 +25,9 @@ const Page = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
-      router.push("/"); // token না থাকলে login page
+      router.push("/"); 
     } else {
-      setLoading(false); // token আছে → content দেখাবে
+      setLoading(false); 
     }
   }, [router]);
 

@@ -44,7 +44,7 @@ const ConfigurePage = () => {
       setLoading(true);
       try {
         const res = await API.get("/configurepage/majorsection");
-        console.log("Major Section API Response:", res.data);
+        // console.log("Major Section API Response:", res.data);
         if (res.data) {
           const major = res.data;
           setMajorsection({
@@ -70,7 +70,7 @@ const ConfigurePage = () => {
     setLoading(true);
     try {
       const res = await API.post("/configurepage/majorsection", majorsection);
-      console.log(res.data);
+      // console.log(res.data);
       toast.success("Card Section saved successfully!");
     } catch (err) {
       console.error(err.response?.data || err.message);

@@ -44,7 +44,7 @@ export function Sidebar({ isOpen = true }) {
 
       router.push("/"); // redirect login page
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       alert("Something went wrong");
     }
 

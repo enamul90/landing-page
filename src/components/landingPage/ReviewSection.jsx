@@ -15,7 +15,7 @@ const ReviewSection = ({ title = "" }) => {
     try {
       setLoading(true);
       const res = await API.get("/review");
-      console.log(res);
+      // console.log(res);
       const reviews = Array.isArray(res.data) ? res.data : [];
       setImages(reviews);
     } catch (error) {

@@ -37,7 +37,11 @@ const OrderPage = () => {
         setLoading(true);
         const status = statusMap[subPage] || "";
         const res = await API.get(`/orders?status=${status}`);
-        setOrders(res.data || []);
+        setOrders(
+          (res.data || []).sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          )
+        );
       } catch (error) {
         console.error("Failed to fetch orders:", error);
       } finally {
@@ -61,7 +65,12 @@ const OrderPage = () => {
         </div>
       </div>
 
-      <OrderTable orders={orders} loading={loading} setOrders={setOrders} />
+      <OrderTable
+        orders={orders}
+        loading={loading}
+        setOrders={setOrders}
+        subPage={subPage}
+      />
     </div>
   );
 };
