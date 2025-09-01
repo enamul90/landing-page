@@ -35,8 +35,14 @@ export function Sidebar({ isOpen = true }) {
   const logout = async () => {
     setLoading(true);
     try {
-      await API.post("/user/logout");
-      router.push("/");
+      await API.post("/user/logout"); // server-side logout (optional)
+
+      // ✅ Client-side token remove
+      localStorage.removeItem("token");
+      // যদি cookie ব্যবহার করো:
+      // document.cookie = "token=; path=/; max-age=0;";
+
+      router.push("/"); // redirect login page
     } catch (error) {
       console.log(error);
       alert("Something went wrong");

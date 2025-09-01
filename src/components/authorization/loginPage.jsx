@@ -37,24 +37,28 @@ export default function LoginPage() {
     password,
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      setLoading(true);
-      const res = await API.post("/user/login", loginData);
-      if (res.data.status === 200) {
-        router.push("/dashboard/index");
-        toast.success("Log In Sucessfully");
-      } else {
-        toast.error(res.data.message);
-      }
+  try {
+    setLoading(true);
+    const res = await API.post("/user/login", loginData);
+    if (res.data.status === 200) {
+      // Token save করা হলো
+      localStorage.setItem("token", res.data.token);
 
-      setLoading(false);
-    } catch (e) {
-      alert("Error logging in!");
+      toast.success("Log In Successfully");
+      router.push("/dashboard/submenu"); 
+    } else {
+      toast.error(res.data.message);
     }
-  };
+  } catch (e) {
+    toast.error("Error logging in!");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-primary/1">
