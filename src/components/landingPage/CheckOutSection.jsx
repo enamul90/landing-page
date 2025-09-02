@@ -9,7 +9,7 @@ const CheckOutSection = ({
   title = "",
   description = "",
   cartProducts = [],
-  setCartProducts, 
+  setCartProducts,
   onToggle,
 }) => {
   const [productPartTitle, setProductPartTitle] = useState("");
@@ -23,14 +23,13 @@ const CheckOutSection = ({
   const [loading, setLoading] = useState(true);
   const [orderloading, setOrderloading] = useState(false);
 
-  // ✅ checkout form data
   const [formData, setFormData] = useState({
     name: "",
     address: "",
     phone: "",
     size: "",
     color: "",
-    shippingCost: "",
+    shippingCost: 0,
   });
 
   useEffect(() => {
@@ -72,18 +71,21 @@ const CheckOutSection = ({
     fetchCardSection();
   }, []);
 
-  // ✅ Quantity handler
+  // Quantity handler
   const handleQuantityChange = (index, delta) => {
     setCartProducts((prev) =>
       prev.map((item, i) =>
         i === index
-          ? { ...item, quantity: Math.max(1, (item.quantity || 1) + delta) }
+          ? {
+              ...item,
+              quantity: Math.max(1, Number(item.quantity || 1) + delta),
+            }
           : item
       )
     );
   };
 
-  // ✅ form input change
+  // Form input change
   const handleChange = (key, value) => {
     if (key === "shippingCost") {
       setFormData({ ...formData, [key]: Number(value) });
@@ -92,7 +94,7 @@ const CheckOutSection = ({
     }
   };
 
-  // ✅ Submit Order
+  // Submit Order
   const handleSubmit = async () => {
     setOrderloading(true);
     const selectedProducts = cartProducts.filter((p) => p.checked);
@@ -110,18 +112,25 @@ const CheckOutSection = ({
     }
 
     try {
+      // Ensure all prices & quantities are numbers
+      const payloadProducts = selectedProducts.map((item) => ({
+        ...item,
+        size: formData.size,
+        color: formData.color,
+        quantity: Number(item.quantity) || 1,
+        sellPrice: Number(item.sellPrice) || 0,
+      }));
+
+      const totalAmount =
+        payloadProducts.reduce(
+          (acc, item) => acc + item.sellPrice * item.quantity,
+          0
+        ) + (Number(formData.shippingCost) || 0);
+
       const payload = {
         ...formData,
-        products: selectedProducts.map((item) => ({
-          ...item,
-          size: formData.size, 
-          color: formData.color,
-        })),
-        totalAmount:
-          selectedProducts.reduce(
-            (acc, item) => acc + item.sellPrice * item.quantity,
-            0
-          ) + (formData.shippingCost || 0),
+        products: payloadProducts,
+        totalAmount,
         status: "new",
       };
 
@@ -134,7 +143,7 @@ const CheckOutSection = ({
           phone: "",
           size: "",
           color: "",
-          shippingCost: "",
+          shippingCost: 0,
         });
         setCartProducts((prev) =>
           prev.map((p) => ({ ...p, checked: false, quantity: 1 }))
@@ -196,7 +205,6 @@ const CheckOutSection = ({
                   key={item._id}
                   className="p-2 border border-Line/50 rounded-md overflow-hidden flex gap-3"
                 >
-                  {/* Checkbox */}
                   <label className="cursor-pointer select-none shrink-0">
                     <input
                       type="checkbox"
@@ -227,7 +235,6 @@ const CheckOutSection = ({
                     </div>
                   </label>
 
-                  {/* Image */}
                   <div className="h-32 w-20 shrink-0">
                     <img
                       src={`/uploads/${item.image}`}
@@ -236,7 +243,6 @@ const CheckOutSection = ({
                     />
                   </div>
 
-                  {/* Product Info */}
                   <div className="flex-1">
                     <h5 className="text-Text-100 md:text-lg font-medium">
                       {item.name}
@@ -250,7 +256,6 @@ const CheckOutSection = ({
                         </span>
                       </h3>
 
-                      {/* Quantity */}
                       <div className="flex gap-4 items-center border border-Line rounded-md w-fit text-lg font-medium">
                         <button
                           onClick={() => handleQuantityChange(index, -1)}
@@ -272,14 +277,10 @@ const CheckOutSection = ({
               ))}
         </div>
 
-        {/* Checkout Form */}
-        <h5 className="text-Text-100 md:text-lg font-medium pt-6 pb-5 ">
-          {loading ? "Loading..." : checkoutData.title}
-        </h5>
-
-        <div id="card" className="grid lg:grid-cols-2 gap-6 pb-5">
+        {/* Checkout Form & Summary */}
+        <div id="card" className="grid lg:grid-cols-2 gap-6 pb-5 mt-6">
           <div>
-            {/* Size */}
+            {/* Size & Color */}
             <h3 className="font-semibold text-Text-100">সাইজ সিলেক্ট করুন</h3>
             <div className="mt-2 space-y-2">
               {checkoutData.sizes.map((size) => (
@@ -296,7 +297,6 @@ const CheckOutSection = ({
               ))}
             </div>
 
-            {/* Color */}
             <h3 className="font-semibold text-Text-100 mt-5">
               কালার সিলেক্ট করুন
             </h3>
@@ -319,7 +319,7 @@ const CheckOutSection = ({
             <div className="mt-6 space-y-4">
               <Input
                 LabelName="আপনার নামঃ"
-                Placeholder="তোমার নাম"
+                Placeholder="তোমার নাম"
                 name="name"
                 value={formData.name}
                 onChange={(val) => handleChange("name", val)}
@@ -333,7 +333,7 @@ const CheckOutSection = ({
               />
               <Input
                 LabelName="ফোন নাম্বারঃ"
-                Placeholder="01xxxxxxxxxxxx"
+                Placeholder="01xxxxxxxxxx"
                 name="phone"
                 value={formData.phone}
                 onChange={(val) => handleChange("phone", val)}
@@ -349,7 +349,7 @@ const CheckOutSection = ({
                     type="radio"
                     name="shippingCost"
                     value={shipping.cost}
-                    checked={formData.shippingCost === shipping.cost}
+                    checked={formData.shippingCost === Number(shipping.cost)}
                     onChange={() => handleChange("shippingCost", shipping.cost)}
                   />
                   <span className="text-Text-100 font-semibold">
@@ -394,17 +394,11 @@ const CheckOutSection = ({
             <div className="mt-4 border border-primary/50 rounded">
               <div className="flex justify-between items-center p-2 border-b border-secondary/50">
                 <h5 className="text-Text-100">Subtotal </h5>
-                <h5 className="text-Text-100">
-                  {subtotal}
-                  TK
-                </h5>
+                <h5 className="text-Text-100">{subtotal} TK</h5>
               </div>
               <div className="flex justify-between items-center p-2">
                 <h5 className="text-Text-100">Payable</h5>
-                <h5 className="text-Text-100">
-                  {payable}
-                  TK
-                </h5>
+                <h5 className="text-Text-100">{payable} TK</h5>
               </div>
             </div>
 
@@ -416,14 +410,11 @@ const CheckOutSection = ({
               </h4>
             </div>
 
-            {/* Submit Button */}
             <button
               onClick={handleSubmit}
               className="lg:p-3 p-2 bg-primary w-full rounded mt-6 text-white font-semibold cursor-pointer"
             >
-              {orderloading ? "Processing Order.." : "অর্ডার করুন"}{" "}
-              {payable}
-              TK
+              {orderloading ? "Processing Order.." : "অর্ডার করুন"} {payable} TK
             </button>
           </div>
         </div>

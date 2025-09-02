@@ -122,7 +122,11 @@ const SinglePage = () => {
         <PageTittle />
         <ImageSlider />
         <VideoSection />
-        <ProductSection addToCart={handleAddToCart} products={products} />
+        <ProductSection
+          addToCart={handleAddToCart}
+          productId={productId}
+          products={products}
+        />
         {listItems.length === 0
           ? Array(3)
               .fill(0)
@@ -172,7 +176,7 @@ const SinglePage = () => {
         <CheckOutSection
           title={loading ? "Loading..." : title}
           description={loading ? "Loading..." : description}
-          cartProducts={cartProducts} // ✅ prop নাম cartProducts করো
+          cartProducts={cartProducts.filter((p) => p._id === productId)}
           setCartProducts={setCartProducts}
           onToggle={handleCheckboxChange}
         />

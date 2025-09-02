@@ -48,6 +48,10 @@ const ProductSection = ({ productId, addToCart, products }) => {
     fetchMajorSection();
   }, []);
 
+  const filteredProducts = productId
+    ? products.filter((p) => p._id === productId)
+    : products;
+
   // Skeleton loader
   const SkeletonCard = () => (
     <div className="p-4 bg-Shave border border-Line rounded gap-6 items-center md:flex space-y-10 md:space-y-0 animate-pulse">
@@ -86,9 +90,9 @@ const ProductSection = ({ productId, addToCart, products }) => {
         </h2>
       </div>
 
-      {products.length === 0
+      {filteredProducts.length === 0
         ? Array.from({ length: 3 }).map((_, idx) => <SkeletonCard key={idx} />)
-        : products.map((product, index) => (
+        : filteredProducts.map((product, index) => (
             <div
               key={index}
               className="p-4 bg-Shave border border-Line rounded gap-6 items-center md:flex space-y-10 md:space-y-0"
