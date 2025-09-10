@@ -82,7 +82,7 @@ export default function SocialMediaInput({ value = [], onChange }) {
             {value.map((link, index) => (
               <li
                 key={index}
-                className="flex items-center justify-between text-sm text-gray-600 bg-gray-50 px-3 py-2 rounded-md border"
+                className="flex items-center justify-between text-sm text-gray-600 bg-gray-50 px-3 py-2 rounded-md border border-Line"
               >
                 <span>
                   {link.platform}:{" "}

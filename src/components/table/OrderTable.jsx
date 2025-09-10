@@ -1,16 +1,15 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import {
   MdOutlinePreview,
   MdArrowDropDown,
 } from "react-icons/md";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
-import { FaRegEdit } from "react-icons/fa";
 import API from "@/app/utils/axios";
 import toast from "react-hot-toast";
+import { FaRegUserCircle } from "react-icons/fa";
 import {
   FaUser,
   FaPhoneAlt,
@@ -114,7 +113,7 @@ const OrderTable = ({ orders = [], loading, setOrders, subPage }) => {
                     <MdOutlinePreview size={18} />
                   </button>
                   <button className="cursor-pointer">
-                    <FaRegEdit size={18} />
+                    <FaRegUserCircle size={18} />
                   </button>
                 </td>
 

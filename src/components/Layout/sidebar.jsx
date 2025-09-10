@@ -56,13 +56,13 @@ export function Sidebar({ isOpen = true }) {
       className={` bg-back text-text-100 w-full flex flex-col transition-transform duration-300 ease-in-out `}
     >
       <div className=" flex items-center justify-center mt-10 mb-5 mx-auto w-full px-1">
-        <div className="flex justify-center mb-6 h-[100px] w-fit mx-auto">
+        <div className="flex justify-center mb-6 h-[60px] w-[60px] mx-auto rounded-full overflow-hidden">
           <Image
             src={`/uploads/${logo}`}
             alt="Logo"
             width={100}
             height={100}
-            className={"h-full w-full object-cover"}
+            className={"min-h-full min-w-full object-cover"}
           />
         </div>
       </div>

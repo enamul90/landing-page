@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
-import Link from "next/link";
 import API from "@/app/utils/axios";
 
 const PageNaveBar = () => {
@@ -52,13 +51,13 @@ const PageNaveBar = () => {
           "container mx-auto max-w-6xl px-3 flex flex-wrap items-center justify-between sticky top-0"
         }
       >
-        <div className="w-14">
+        <div className="w-[30px] h-[30px] overflow-hidden">
           <Image
             src={`/uploads/${logo}`}
             alt="Logo"
             width={100}
             height={100}
-            className={"h-full w-full object-cover"}
+            className={"min-h-full min-w-full object-cover object-center"}
           />
         </div>
 
