@@ -1,19 +1,19 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import PageNaveBar from "@/components/landingPage/PageNaveBar";
-import PageTittle from "@/components/landingPage/PageTittle";
-import ImageSlider from "@/components/landingPage/ImageSlider";
-import VideoSection from "@/components/landingPage/VideoSection";
-import ProductSection from "@/components/landingPage/ProductSection";
-import ListData from "@/components/landingPage/ListDataSection";
-import ReviewSection from "@/components/landingPage/ReviewSection";
-import CheckOutSection from "@/components/landingPage/CheckOutSection";
-import PageFooter from "@/components/landingPage/PageFooter";
+import PageNaveBar from "@/components/landingPage/landingPage1/PageNaveBar";
+import PageTittle from "@/components/landingPage/landingPage1/PageTittle";
+import ImageSlider from "@/components/landingPage/landingPage1/ImageSlider";
+import VideoSection from "@/components/landingPage/landingPage1/VideoSection";
+import ProductSection from "@/components/landingPage/landingPage1/ProductSection";
+import ListData from "@/components/landingPage/landingPage1/ListDataSection";
+import ReviewSection from "@/components/landingPage/landingPage1/ReviewSection";
+import CheckOutSection from "@/components/landingPage/landingPage1/CheckOutSection";
+import PageFooter from "@/components/landingPage/landingPage1/PageFooter";
 import API from "@/app/utils/axios";
 import toast from "react-hot-toast";
-import ImageSection from "@/components/landingPage/ImageSection";
-import TextEditorSection from "@/components/landingPage/TextEditorSection";
+import ImageSection from "@/components/landingPage/landingPage1/ImageSection";
+import TextEditorSection from "@/components/landingPage/landingPage1/TextEditorSection";
 import { useParams } from "next/navigation";
 
 const SinglePage = () => {

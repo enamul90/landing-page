@@ -32,7 +32,7 @@ const Page = () => {
   }, [router]);
 
   const goLandingPage = () => {
-    window.open("/landingPage/111", "_blank");
+    window.open("/landingPage/1", "_blank");
   };
 
   if (loading)

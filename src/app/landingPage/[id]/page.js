@@ -1,12 +1,13 @@
-import React from 'react';
-import FreePage from "@/landingPage/FreePage";
+import React from "react";
+import FreePage from "@/landingPage/landingPage1/FreePage";
+import Index from "@/landingPage/landingPage2/Index";
+import LandingPage3 from "@/landingPage/landingPage3/LandingPage3";
 
-const Page = () => {
-    return (
-        <>
-            <FreePage />
-        </>
-    );
+const templates = {
+  1: <FreePage />,
+  2: <Index />,
+  3: <LandingPage3 />,
 };
-
-export default Page;
+export default function Page({ params }) {
+  return templates[params.id] || <div>Landing Page Not Found</div>;
+}

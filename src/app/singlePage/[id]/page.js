@@ -1,5 +1,5 @@
 import React from 'react';
-import SinglePage from "@/landingPage/SinglePage";
+import SinglePage from "@/landingPage/landingPage1/SinglePage";
 
 const Page = () => {
     return (

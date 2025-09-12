@@ -8,11 +8,11 @@
 
 
 @theme {
-  --color-primary : #F1A350;
-  --color-secondary : #64A2F8;
+  --color-primary: #F1A350;
+  --color-secondary: #64A2F8;
 
-  --color-Back : #E9EFF5;
-  --color-Shave : #FFFFFF;
+  --color-Back: #E9EFF5;
+  --color-Shave: #FFFFFF;
 
   --color-Text-100: #1f1f27;
   --color-Text-75: #373737;
@@ -20,11 +20,11 @@
   --color-Line: #dfdfdf;
 
 
-  --color-border:#E1E6ED;
+  --color-border: #E1E6ED;
 }
 
 
-.video-section{
+.video-section {
   background: linear-gradient(90deg, rgba(241, 163, 80, 0.10) 11.55%, #64A2F8 50.58%, rgba(241, 163, 80, 0.10) 93.73%);
 }
 
@@ -37,12 +37,15 @@
 /* Works in modern browsers */
 .scrollbarDiv {
   overflow: scroll;
-  scrollbar-width: none;  /* Firefox */
-  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
 }
 
 .scrollbarDiv::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari */
+  display: none;
+  /* Chrome, Safari */
 }
 
 
@@ -54,12 +57,21 @@
   border-radius: 50%;
   background: #ffffff;
   --_m:
-          conic-gradient(#0000 10%,#000),
-          linear-gradient(#000 0 0) content-box;
+    conic-gradient(#0000 10%, #000),
+    linear-gradient(#000 0 0) content-box;
   -webkit-mask: var(--_m);
   mask: var(--_m);
   -webkit-mask-composite: source-out;
   mask-composite: subtract;
   animation: l3 1s infinite linear;
 }
-@keyframes l3 {to{transform: rotate(1turn)}}
+
+@keyframes l3 {
+  to {
+    transform: rotate(1turn)
+  }
+}
+
+.clip {
+  clip-path: polygon(100% 0, 100% 64%, 50% 85%, 0 64%, 0 0);
+}
