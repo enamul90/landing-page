@@ -56,8 +56,7 @@ export default function SettingPage() {
   const handleSubmit = async () => {
     setButtonLoading(true);
     try {
-      const res = await API.post("/companyinfo", formData);
-      // console.log(res.data);
+      await API.post("/companyinfo", formData);
       toast.success("Saved successfully!");
     } catch (err) {
       console.error(err.response?.data || err.message);
@@ -70,14 +69,26 @@ export default function SettingPage() {
   return (
     <div className="lg:p-5 p-2 bg-gray-100 min-h-screen">
       <div className="w-full p-5 bg-white rounded-md">
-        <h2 className="text-xl text-center font-semibold uppercase text-Text-100 pb-2">
+        <h2 className="text-xl font-semibold uppercase text-Text-100 pb-4">
           Company Settings
         </h2>
 
         {loading ? (
-          <div className="flex justify-center items-center py-20">
-            <span className="text-gray-500">Loading...</span>
-          </div>
+
+            <>
+                {[...Array(4)].map((_, i) => (
+                    <div
+                        key={i}
+                        className="bg-gray-100 rounded-lg p-4 animate-pulse mb-4"
+                    >
+                        <div className="h-6 bg-gray-200 rounded w-3/4 mb-4"></div>
+                        <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
+                        <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+                    </div>
+                ))}
+
+            </>
+
         ) : (
           <>
             <ImageUpload

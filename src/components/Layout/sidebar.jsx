@@ -7,23 +7,28 @@ import { useParams, useRouter } from "next/navigation";
 import { menuItems } from "@/data/mainData";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import API from "@/app/utils/axios";
+import toast from "react-hot-toast";
 
 export function Sidebar({ isOpen = true }) {
   const params = useParams();
   const { subPage, mainPage } = params;
   const router = useRouter();
 
-  const [logo, setLogo] = useState("/logo/logo.png");
+  const [logo, setLogo] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCompanyInfo = async () => {
       try {
-        const res = await API.get("/companyinfo");
-        if (res.data && res.data.length > 0) {
-          const info = res.data[0];
-          setLogo(info.logo || "/logo/logo.png");
-        }
+          if(logo === null){
+              const res = await API.get("/companyinfo");
+
+              if (res.data && res.data.length > 0) {
+                  const info = res.data[0];
+                  setLogo(info.logo );
+              }
+          }
+
       } catch (err) {
         console.error("Failed to fetch logo and social links:", err);
       }
@@ -37,15 +42,14 @@ export function Sidebar({ isOpen = true }) {
     try {
       await API.post("/user/logout"); // server-side logout (optional)
 
-      // ✅ Client-side token remove
-      localStorage.removeItem("token");
-      // যদি cookie ব্যবহার করো:
-      // document.cookie = "token=; path=/; max-age=0;";
 
-      router.push("/"); // redirect login page
+      localStorage.removeItem("token");
+
+
+      router.push("/");
     } catch (error) {
-      // console.log(error);
-      alert("Something went wrong");
+     toast.error(error.message);
+
     }
 
     setLoading(false);
@@ -58,7 +62,7 @@ export function Sidebar({ isOpen = true }) {
       <div className=" flex items-center justify-center mt-10 mb-5 mx-auto w-full px-1">
         <div className="flex justify-center mb-6 h-[60px] w-[60px] mx-auto rounded-full overflow-hidden">
           <Image
-            src={`/uploads/${logo}`}
+            src={`/uploads/${logo}` || "/logo/logo.png"}
             alt="Logo"
             width={100}
             height={100}

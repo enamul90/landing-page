@@ -9,6 +9,7 @@ const ImageUploadModal = ({ onUploadSuccess }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -19,6 +20,7 @@ const ImageUploadModal = ({ onUploadSuccess }) => {
   };
 
 const handleUpload = async () => {
+    setLoading(true);
   if (!selectedImage) return;
 
   try {
@@ -40,10 +42,11 @@ const handleUpload = async () => {
     setSelectedImage(null);
     setImagePreview(null);
 
+      setLoading(false);
     if (onUploadSuccess) onUploadSuccess();
   } catch (error) {
-    console.error("Upload failed:", error);
-    toast.error("Upload failed!");
+
+    toast.error(error.message);
   }
 };
 
@@ -107,7 +110,10 @@ const handleUpload = async () => {
                 onClick={handleUpload}
                 disabled={!selectedImage}
               >
-                Upload
+                  {
+                      loading ? "Loader..." :"Upload"
+                  }
+
               </button>
             </div>
           </div>
