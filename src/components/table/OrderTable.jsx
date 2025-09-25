@@ -52,8 +52,8 @@ const OrderTable = ({ orders = [], loading, setOrders, subPage }) => {
 
       setSelectedOrder(null);
     } catch (err) {
-      console.error(err);
-      toast.error("Something went wrong");
+
+      toast.error(err.message);
     } finally {
       setStatusLoading(false);
       setShowDropdown(false);
@@ -128,9 +128,9 @@ const OrderTable = ({ orders = [], loading, setOrders, subPage }) => {
                   <h5 className="text-xs text-Text-75">{order.address}</h5>
                 </td>
 
-                <td className="p-2 border-e border-Line">
+                <td className="p-2 border-e border-Line max-w-70 ">
                   {order.products.map((p) => (
-                    <div key={p._id} className="flex gap-3 mb-2">
+                    <div key={p._id} className="flex gap-3 mb-2 w-full">
                       <div className="h-20 w-18 shrink-0">
                         <img
                           src={`/uploads/${p.image}`}
@@ -138,7 +138,7 @@ const OrderTable = ({ orders = [], loading, setOrders, subPage }) => {
                           className="h-full w-full object-cover object-center rounded-md"
                         />
                       </div>
-                      <div className="w-36 h-20 overflow-auto">
+                      <div className="w-full h-20 overflow-auto ">
                         <h5>{p.name}</h5>
                         <h5 className="font-medium text-Text-75">
                           Color :{" "}

@@ -76,11 +76,11 @@ export default function ProductList() {
             Product List
           </h2>
         </div>
-        <div className=" col-span-3 gap-3 grid grid-cols-2 md:grid-cols-4 lg:col-span-5  ">
+        <div className=" col-span-5 gap-3 flex flex-wrap justify-end ">
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className=" col-span-2 md:col-span-2  px-4 w-full  py-2 border border-Line rounded-md bg-white text-lightText-100 focus:outline-none
+            className="   px-4   py-2 border border-Line rounded-md bg-white text-lightText-100 focus:outline-none
                         focus:ring-1 focus:ring-primary transition
                         "
           >
@@ -92,7 +92,7 @@ export default function ProductList() {
           {selectedIds.length > 0 && (
             <button
               onClick={handleDeleteSelected}
-              className=" col-span-1 flex text-xs lg:text-base items-center justify-center lg:px-4 py-2 px-3 w-full
+              className="  flex text-xs lg:text-base items-center justify-center lg:px-4 py-2 px-3
                           bg-black text-text-100 rounded-lg text-white cursor-pointer "
             >
               <FiTrash2 className="w-5 h-5 mr-2" />
@@ -101,8 +101,8 @@ export default function ProductList() {
           )}
           <button
             onClick={addProduct}
-            className=" flex text-xs lg:text-base items-center justify-center  lg:px-4 py-2 px-3  w-full  bg-secondary
-                        text-text-100 rounded-lg text-white cursor-pointer"
+            className=" flex text-xs lg:text-base items-center justify-center  lg:px-4 py-2 px-3    bg-secondary
+                        text-text-100 rounded-lg text-white cursor-pointer "
           >
             <FiPlus className="w-5 h-5 mr-2" />
             Add Product
